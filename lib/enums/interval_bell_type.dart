@@ -1,0 +1,4 @@
+enum BellType {
+  fixed,
+  random,
+}

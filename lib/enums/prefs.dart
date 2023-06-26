@@ -1,0 +1,23 @@
+enum Prefs {
+  openSession,
+  time,
+  countdownTime,
+  bellVolume,
+  bellOnStartSound,
+  bellIntervalSound,
+  bellType,
+  bellFixedTime,
+  bellRandom,
+  bellOnEndSound,
+  ambience,
+  ambienceVolume,
+  colorTheme,
+  followOSTheme,
+  darkTheme,
+  showTimer,
+  timerDesign,
+  reverseTimer,
+  vibrate,
+  muteDevice,
+  keepAwake
+}
