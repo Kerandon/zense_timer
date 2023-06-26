@@ -55,12 +55,13 @@ class CountdownMessage extends ConsumerWidget {
             padding: const EdgeInsets.all(12.0),
             child: Text(
               kSessionWillBeginShortly,
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: appState.colorTheme == AppColorTheme.simple &&
                           !appState.darkTheme
                       ? Colors.black
                       : Colors.white,
                   fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
           ),
         )).animate().fadeIn(duration: kFadeInTimeSlow.milliseconds * 5);

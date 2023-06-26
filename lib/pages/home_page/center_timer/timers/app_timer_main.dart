@@ -45,7 +45,7 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
       _appStateTimer?.cancel();
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        appNotifier.setTimeElapsed(0);
+        appNotifier.setElapsedTime(0);
       });
     }
 
@@ -69,12 +69,12 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
         /// FIXED TIME
         if (!appState.openSession) {
           int t = 0;
-          t = (appState.time) + (appState.countdownTime);
+          t = appState.time + appState.countdownTime;
 
           _appStateTimer = CountdownTimer(
               Duration(milliseconds: t), const Duration(milliseconds: 1))
             ..listen((event) {
-              appNotifier.setTimeElapsed(
+              appNotifier.setElapsedTime(
                   event.elapsed.inMilliseconds + appState.elapsedTime);
             });
           _timerIsSet = true;
@@ -83,7 +83,7 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
               const Duration(milliseconds: kOpenSessionMaxTime),
               const Duration(milliseconds: 1))
             ..listen((event) {
-              appNotifier.setTimeElapsed(
+              appNotifier.setElapsedTime(
                   (event.elapsed.inMilliseconds + appState.elapsedTime));
             });
 

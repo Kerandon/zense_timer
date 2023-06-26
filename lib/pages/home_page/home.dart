@@ -1,5 +1,3 @@
-import 'package:zense_timer/audio/ambience_service_standard.dart';
-import 'package:zense_timer/audio/bell_service_standard.dart';
 import 'package:zense_timer/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,7 +8,6 @@ import '../../configs/constants.dart';
 import '../../enums/session_state.dart';
 import '../../state/app_state.dart';
 import '../../state/audio_state.dart';
-import '../../utils/methods/ringer_status_methods.dart';
 import 'banner_settings/ambience/ambience_strip.dart';
 import 'banner_settings/banner_main.dart';
 import 'banner_settings/presets/presets_strip.dart';
@@ -35,17 +32,12 @@ class _HomePageContentsState extends ConsumerState<HomePage> {
     final appState = ref.watch(appProvider);
     final audioState = ref.watch(audioProvider);
     const yStripAlign = -0.96;
-    // _setDND(appState);
     _setWakelock(appState);
 
     return Stack(
       children: [
-        BellServiceIsolate(),
-        AmbienceServiceIsolate(),
-        // BellServiceStandard(),
-        // AmbienceServiceStandard(),
-        //  const AmbienceServiceIsolate(),
-        // const BellServiceIsolate(),
+        const BellServiceIsolate(),
+        const AmbienceServiceIsolate(),
         Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
           drawer: appState.sessionState == SessionState.notStarted
@@ -122,17 +114,6 @@ class _HomePageContentsState extends ConsumerState<HomePage> {
       }
     } else {
       Wakelock.disable();
-    }
-  }
-
-  Future<void> _setDND(AppState appState) async {
-    if (appState.sessionState == SessionState.countdown ||
-        appState.sessionState == SessionState.inProgress) {
-      if (appState.muteDevice) {
-        await setDND(on: true, state: appState);
-      } else {
-        await setDND(on: false, state: appState);
-      }
     }
   }
 }

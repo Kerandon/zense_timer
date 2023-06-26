@@ -66,121 +66,128 @@ class _CompletionPageState extends ConsumerState<CompletionPage> {
               }
               return Padding(
                 padding: EdgeInsets.all(size.width * 0.05),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          'Congratulations\nSession Completed',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                  fontWeight: FontWeight.bold, fontSize: 22),
-                          textAlign: TextAlign.center,
+                child: SizedBox(
+                  height: size.height,
+                  width: size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'Congratulations\nSession Completed',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: size.width,
-                      height: size.height * 0.25,
-                      child: Center(
+                      SizedBox(
+                        width: size.width,
+                        height: size.height * 0.25,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(size.width * 0.05),
+                            child: Shimmer.fromColors(
+                              baseColor: Theme.of(context).colorScheme.primary,
+                              highlightColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              delay: const Duration(seconds: 6),
+                              child: Image.asset(
+                                'assets/images/meditation_woman.png',
+                              ),
+                            ),
+                          ),
+                        )
+                            .animate()
+                            .fadeIn(duration: 1.seconds)
+                            .scaleXY(begin: 0.95),
+                      ),
+                      const CompletionQuotes(),
+                      SizedBox(
+                        height: size.height * 0.20,
                         child: Padding(
-                          padding: EdgeInsets.all(size.width * 0.05),
-                          child: Shimmer.fromColors(
-                            baseColor: Theme.of(context).colorScheme.primary,
-                            highlightColor:
-                                Theme.of(context).colorScheme.secondary,
-                            delay: const Duration(seconds: 6),
-                            child: Image.asset(
-                              'assets/images/meditation_woman.png',
-                            ),
+                          padding:
+                              EdgeInsets.symmetric(vertical: size.height * 0.015),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: CompletionStatBox(
+                                  text: 'Time',
+                                  value: totalTime,
+                                  onTap: () {
+                                    _pushStats(context, appNotifier);
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                child: CompletionStatBox(
+                                  text: 'Streak',
+                                  value: currentStreakString,
+                                  onTap: () {
+                                    _pushStats(context, appNotifier);
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                child: CompletionStatBox(
+                                  text: 'Save current\nsetting as preset',
+                                  icon: Icons.add,
+                                  onTap: () {
+                                    final dialog = showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            const AddPresetDialog());
+                                    dialog.then(
+                                      (value) async {
+                                        audioNotifier.setShowAmbience(false);
+                                        appNotifier.setShowPresets(true);
+                                        appNotifier.setSessionState(
+                                          SessionState.notStarted,
+                                        );
+                                        await Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                                PageRouteBuilder(
+                                                  pageBuilder: (_, __, ___) =>
+                                                      const HomePage(),
+                                                ),
+                                                (route) => false);
+                                      },
+                                    );
+                                  },
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      )
-                          .animate()
-                          .fadeIn(duration: 1.seconds)
-                          .scaleXY(begin: 0.95),
-                    ),
-                    const CompletionQuotes(),
-                    SizedBox(
-                      height: size.height * 0.20,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: size.height * 0.015),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: CompletionStatBox(
-                                text: 'Time',
-                                value: totalTime,
-                                onTap: () {
-                                  _pushStats(context, appNotifier);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: CompletionStatBox(
-                                text: 'Streak',
-                                value: currentStreakString,
-                                onTap: () {
-                                  _pushStats(context, appNotifier);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: CompletionStatBox(
-                                text: 'Save current\nsetting as preset',
-                                icon: Icons.add,
-                                onTap: () {
-                                  final dialog = showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          const AddPresetDialog());
-                                  dialog.then(
-                                    (value) async {
-                                      audioNotifier.setShowAmbience(false);
-                                      appNotifier.setShowPresets(true);
-                                      appNotifier.setSessionState(
-                                        SessionState.notStarted,
-                                      );
-                                      await Navigator.of(context)
-                                          .pushAndRemoveUntil(
-                                              PageRouteBuilder(
-                                                pageBuilder: (_, __, ___) =>
-                                                    const HomePage(),
-                                              ),
-                                              (route) => false);
-                                    },
-                                  );
-                                },
-                              ),
-                            )
-                          ],
-                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: size.width * kButtonWidth,
-                      height: size.height * 0.15,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: size.height * 0.03),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.refresh_outlined,
-                            size: 50,
-                            color: Theme.of(context).colorScheme.primary,
+                      SizedBox(
+                        width: size.width * kButtonWidth,
+                        height: size.height * 0.15,
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: size.height * 0.03),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.refresh_outlined,
+                              size: 50,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () {
+                              _goHome(appNotifier, context);
+                            },
                           ),
-                          onPressed: () {
-                            _goHome(appNotifier, context);
-                          },
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             }

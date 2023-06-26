@@ -188,10 +188,8 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
 
   void _setFixedBells(
       {required AppState appState, required AudioState audioState}) {
-    int time = appState.time;
-    if (appState.openSession) {
-      time = kOpenSessionMaxTime;
-    }
+    /// Work out time
+    int time = appState.openSession ? kOpenSessionMaxTime : appState.time;
 
     int totalIntervalBells = 0;
     int timeToStart = 0;
@@ -204,12 +202,14 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
       }
     } else {
       /// on RESUME
-      final remainingTime = time - appState.elapsedTime;
+      final remainingTime = time - appState.elapsedTime + appState.countdownTime;
 
       totalIntervalBells =
           (remainingTime / audioState.bellFixedTime).floor() - 1;
 
       timeToStart = remainingTime;
+
+      print('elapsed time is ${appState.elapsedTime} remaining time is $remainingTime');
 
       for (int i = 0; i < (totalIntervalBells + 1); i++) {
         timeToStart -= audioState.bellFixedTime;
@@ -271,7 +271,7 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
       /// Time to end
       appState.elapsedTime == 0
           ? appState.countdownTime + time
-          : time - appState.elapsedTime,
+          : time - (appState.elapsedTime + appState.countdownTime),
 
       /// Bell volume
       audioState.bellVolume,
@@ -285,11 +285,12 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
       time = kOpenSessionMaxTime;
     }
 
+
     FlutterIsolate.spawn(playEndBell, [
       audioState.bellOnEndSound.name,
       appState.elapsedTime == 0
           ? appState.countdownTime + time
-          : time - appState.elapsedTime,
+          : time - appState.elapsedTime + appState.countdownTime,
       appState.vibrate,
       audioState.bellVolume,
     ]);

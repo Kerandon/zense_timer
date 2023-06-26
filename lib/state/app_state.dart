@@ -175,7 +175,7 @@ class AppNotifier extends StateNotifier<AppState> {
     state = state.copyWith(currentPage: index);
   }
 
-  void setTimeElapsed(int time) {
+  void setElapsedTime(int time) {
     state = state.copyWith(elapsedTime: time);
   }
 

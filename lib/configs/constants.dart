@@ -40,8 +40,8 @@ const kNoOfXLabelsOnLineChart = 5;
 const kDashboardIconSize = 30.0;
 
 /// AUDIO
-const kAmbienceFadeTime = 3000;
-const kEndBellGap = 4000;
+const kAmbienceFadeTime = 4000;
+const kEndBellGap = 4500;
 const kNone = 'none';
 
 /// CUSTOM TIMERS
