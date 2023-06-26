@@ -40,8 +40,10 @@ class _HomePageContentsState extends ConsumerState<HomePage> {
 
     return Stack(
       children: [
-        BellServiceStandard(),
-        AmbienceServiceStandard(),
+        BellServiceIsolate(),
+        AmbienceServiceIsolate(),
+        // BellServiceStandard(),
+        // AmbienceServiceStandard(),
         //  const AmbienceServiceIsolate(),
         // const BellServiceIsolate(),
         Scaffold(

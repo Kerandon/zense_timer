@@ -13,7 +13,7 @@ import '../state/audio_state.dart';
 
 /// PLAY FIXED BELLS
 @pragma('vm:entry-point')
-Future<void> playFixedBellsIsolate(dynamic args) async {
+void playFixedBellsIsolate(dynamic args) {
   int timeToStart = args[0];
   bool bellOnStart = args[1];
   String startSound = args[2];
@@ -28,28 +28,26 @@ Future<void> playFixedBellsIsolate(dynamic args) async {
   final playerStart = AudioPlayer();
   final playerInterval = AudioPlayer();
 
-  await playerStart
-      .setAsset('assets/audio/bells/$startSound.mp3')
-      .then((value) async {
+  playerStart.setAsset('assets/audio/bells/$startSound.mp3').then((value) {
     playerStart.setVolume(volume);
   });
-  await playerInterval
+  playerInterval
       .setAsset('assets/audio/bells/$intervalSound.mp3')
-      .then((value) async {
+      .then((value) {
     playerInterval.setVolume(volume);
   });
 
   int bellIndex = 0;
 
-  Timer(Duration(milliseconds: timeToStart), () async {
+  Timer(Duration(milliseconds: timeToStart), () {
     if (bellOnStart) {
       print('play first bell');
-      await playerStart.play();
+      playerStart.play();
     }
-    Timer.periodic(Duration(milliseconds: intervalTime), (timer) async {
+    Timer.periodic(Duration(milliseconds: intervalTime), (timer) {
       print('play bell $bellIndex');
-      await playerInterval.seek(Duration.zero);
-      await playerInterval.play();
+      playerInterval.seek(Duration.zero);
+      playerInterval.play();
       bellIndex++;
       if (totalBells == 0 || bellIndex == totalBells) {
         print('cancel periodic bells');
@@ -61,7 +59,7 @@ Future<void> playFixedBellsIsolate(dynamic args) async {
 
 /// PLAY RANDOM BELLS
 @pragma('vm:entry-point')
-Future<void> playRandomBells(dynamic args) async {
+void playRandomBells(dynamic args) {
   int timeToStart = args[0];
   bool bellOnStart = args[1];
   String startSound = args[2];
@@ -78,34 +76,32 @@ Future<void> playRandomBells(dynamic args) async {
   final playerStart = AudioPlayer();
   final playerInterval = AudioPlayer();
 
-  await playerStart
-      .setAsset('assets/audio/bells/$startSound.mp3')
-      .then((value) async {
+  playerStart.setAsset('assets/audio/bells/$startSound.mp3').then((value) {
     playerStart.setVolume(volume);
   });
-  await playerInterval
+  playerInterval
       .setAsset('assets/audio/bells/$intervalSound.mp3')
-      .then((value) async {
+      .then((value) {
     playerInterval.setVolume(volume);
   });
 
   if (bellOnStart) {
-    Timer(Duration(milliseconds: timeToStart), () async {
-      await playerStart.seek(Duration.zero);
-      await playerStart.play();
+    Timer(Duration(milliseconds: timeToStart), () {
+      playerStart.seek(Duration.zero);
+      playerStart.play();
     });
   }
 
   Timer? timer;
-  Future<void> calculateRandomTime(int minRandomTime, int maxRandomTime) async {
+  void calculateRandomTime(int minRandomTime, int maxRandomTime) {
     Random random = Random();
     Duration duration = Duration(
         milliseconds:
             random.nextInt(maxRandomTime - minRandomTime) + minRandomTime);
     print('RANDOM TIME SET TO ${duration.inMilliseconds}');
-    timer = Timer(duration, () async {
-      await playerInterval.seek(Duration.zero);
-      await playerInterval.play();
+    timer = Timer(duration, () {
+      playerInterval.seek(Duration.zero);
+      playerInterval.play();
       calculateRandomTime(minRandom, maxRandomTime);
     });
   }
@@ -120,7 +116,7 @@ Future<void> playRandomBells(dynamic args) async {
 
 /// END BELL ISOLATE
 @pragma('vm:entry-point')
-Future<void> playEndBell(dynamic args) async {
+void playEndBell(dynamic args) {
   String endSound = args[0];
   int time = args[1];
   bool vibrate = args[2];
@@ -129,28 +125,24 @@ Future<void> playEndBell(dynamic args) async {
   final bellPlayer1 = AudioPlayer();
   final bellPlayer2 = AudioPlayer();
 
-  await bellPlayer1
-      .setAsset('assets/audio/bells/$endSound.mp3')
-      .then((value) async {
+  bellPlayer1.setAsset('assets/audio/bells/$endSound.mp3').then((value) {
     bellPlayer1.setVolume(volume);
   });
-  await bellPlayer2
-      .setAsset('assets/audio/bells/$endSound.mp3')
-      .then((value) async {
+  bellPlayer2.setAsset('assets/audio/bells/$endSound.mp3').then((value) {
     bellPlayer2.setVolume(volume);
   });
 
   ///End bell - plays 2 bells & also vibrates is [true]
-  Timer(Duration(milliseconds: time), () async {
-    await bellPlayer1.play();
+  Timer(Duration(milliseconds: time), () {
+    bellPlayer1.play();
 
     if (vibrate) {
-      await Vibration.vibrate(duration: 3000);
+      Vibration.vibrate(duration: 3000);
     }
   });
 
-  Timer(Duration(milliseconds: time + kEndBellGap), () async {
-    await bellPlayer2.play();
+  Timer(Duration(milliseconds: time + kEndBellGap), () {
+    bellPlayer2.play();
   });
 }
 
@@ -286,14 +278,14 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
     ]);
   }
 
-  Future<FlutterIsolate> _setEndBell(
-      {required AppState appState, required AudioState audioState}) async {
+  void _setEndBell(
+      {required AppState appState, required AudioState audioState}) {
     int time = appState.time;
     if (appState.openSession) {
       time = kOpenSessionMaxTime;
     }
 
-    return FlutterIsolate.spawn(playEndBell, [
+    FlutterIsolate.spawn(playEndBell, [
       audioState.bellOnEndSound.name,
       appState.elapsedTime == 0
           ? appState.countdownTime + time
@@ -303,7 +295,7 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
     ]);
   }
 
-  Future<void> _reset() async {
-    await FlutterIsolate.killAll();
+  void _reset() {
+    FlutterIsolate.killAll();
   }
 }

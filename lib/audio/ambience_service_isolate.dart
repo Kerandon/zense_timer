@@ -11,7 +11,7 @@ import '../state/app_state.dart';
 import '../state/audio_state.dart';
 
 @pragma('vm:entry-point')
-Future<void> playAmbience(dynamic args) async {
+void playAmbience(dynamic args) {
   String ambience = args[0];
   double volume = args[1];
   int position = args[2];
@@ -20,15 +20,15 @@ Future<void> playAmbience(dynamic args) async {
   SendPort sendPort = args[5];
 
   final ambiencePlayer = AudioPlayer();
-  await ambiencePlayer.setAsset('assets/audio/ambience/$ambience.mp3');
+  ambiencePlayer.setAsset('assets/audio/ambience/$ambience.mp3');
+  ambiencePlayer.setVolume(0);
+  ambiencePlayer.setLoopMode(LoopMode.all);
   ambiencePlayer.seek(Duration(milliseconds: position));
-  await ambiencePlayer.setVolume(0);
-  await ambiencePlayer.setLoopMode(LoopMode.all);
 
-  Timer(Duration(milliseconds: countdown), () async {
+  Timer(Duration(milliseconds: countdown), () {
     CountdownTimer(const Duration(milliseconds: kAmbienceFadeTime),
             const Duration(milliseconds: 1))
-        .listen((event) async {
+        .listen((event) {
       final percent = 1 - (event.remaining.inMilliseconds / kAmbienceFadeTime);
 
       ambiencePlayer.setVolume(percent * volume);
@@ -37,7 +37,7 @@ Future<void> playAmbience(dynamic args) async {
     ambiencePlayer.positionStream.listen((event) {
       sendPort.send(ambiencePlayer.position.inMilliseconds);
     });
-    await ambiencePlayer.play();
+    ambiencePlayer.play();
   });
 
   /// Fade out and end ambience
@@ -46,7 +46,7 @@ Future<void> playAmbience(dynamic args) async {
   Timer(Duration(milliseconds: timeToEnd), () {
     CountdownTimer(const Duration(milliseconds: kAmbienceFadeTime),
             const Duration(milliseconds: 1))
-        .listen((event) async {
+        .listen((event) {
       final percent = (event.remaining.inMilliseconds / kAmbienceFadeTime);
       ambiencePlayer.setVolume(percent * volume);
     }).onDone(() {
@@ -113,35 +113,37 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
     return const SizedBox();
   }
 
-  Future<void> _play({
+ void _play({
     required AudioState audioState,
     required AudioNotifier audioNotifier,
     required AppState appState,
     required bool firstPlay,
-  }) async {
-    /// Set total time
-    int time = appState.time;
-    if (appState.openSession) {
-      time = kOpenSessionMaxTime;
-    }
+  }) {
+   /// Set total time
+   int time = appState.time;
+   if (appState.openSession) {
+     time = kOpenSessionMaxTime;
+   }
 
-    final port = ReceivePort();
-    List<dynamic> msg = [
-      audioState.ambience.name,
-      audioState.ambienceVolume,
-      audioState.ambiencePosition,
-      firstPlay ? appState.countdownTime : 0,
-      firstPlay ? time : time - appState.elapsedTime,
-      port.sendPort
-    ];
+   final port = ReceivePort();
+   List<dynamic> msg = [
+     audioState.ambience.name,
+     audioState.ambienceVolume,
+     audioState.ambiencePosition,
+     firstPlay ? appState.countdownTime : 0,
+     firstPlay ? time : time - appState.elapsedTime,
+     port.sendPort
+   ];
 
-    await FlutterIsolate.spawn(playAmbience, msg);
-    port.listen((position) {
-      audioNotifier.setAmbiencePosition(position);
-    });
-  }
+   if (audioState.ambience.name != kNone) {
+     FlutterIsolate.spawn(playAmbience, msg);
+     port.listen((position) {
+       audioNotifier.setAmbiencePosition(position);
+     });
+   }
+ }
 
-  Future<void> _stop() async {
-    await FlutterIsolate.killAll();
+ void _stop()  {
+    FlutterIsolate.killAll();
   }
 }

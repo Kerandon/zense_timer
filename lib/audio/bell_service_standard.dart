@@ -26,7 +26,7 @@ class _BellServiceStandardState extends ConsumerState<BellServiceStandard> {
   final _playerInterval = AudioPlayer();
   final _playerEnd1 = AudioPlayer();
   final _playerEnd2 = AudioPlayer();
-  Timer? _timerStart, _timerInterval, _timerEnd1, _timerEnd2;
+  Timer? _timerStart, _timerInterval, _timerRandomEnd, _timerEnd1, _timerEnd2;
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +52,16 @@ class _BellServiceStandardState extends ConsumerState<BellServiceStandard> {
       }
     }
 
+    if (appState.sessionState == SessionState.paused) {
+      _reset();
+    }
+
     return const SizedBox.shrink();
   }
 
-  Future<void> _setFixedBells(
-      {required AppState appState, required AudioState audioState}) async {
+  void _setFixedBells(
+      {required AppState appState, required AudioState audioState}) {
+    /// Work out time
     int time = appState.openSession ? kOpenSessionMaxTime : appState.time;
 
     int totalIntervalBells = 0;
@@ -93,20 +98,22 @@ class _BellServiceStandardState extends ConsumerState<BellServiceStandard> {
         ? audioState.bellOnStartSound.name
         : audioState.bellIntervalSound.name;
 
-    _timerStart = Timer(Duration(milliseconds: timeToStart), () async {
+    print('time to start fixed $timeToStart');
+    _timerStart = Timer(Duration(milliseconds: timeToStart), () {
       if (bellOnStart) {
-        await _playerStart
+        _playerStart
             .setAsset('assets/audio/bells/${startSound}.mp3')
-            .then((value) async {
-          await _playerStart.play();
+            .then((value) {
+          _playerStart.play();
         });
       }
+      print('set fixed timer ${audioState.bellFixedTime}');
       _timerInterval = Timer.periodic(
-          Duration(milliseconds: audioState.bellFixedTime), (timer) async {
-        await _playerInterval
+          Duration(milliseconds: audioState.bellFixedTime), (timer) {
+        _playerInterval
             .setAsset(
                 'assets/audio/bells/${audioState.bellIntervalSound.name}.mp3')
-            .then((value) async {
+            .then((value) {
           _playerInterval.play();
         });
         totalIntervalBells--;
@@ -119,93 +126,110 @@ class _BellServiceStandardState extends ConsumerState<BellServiceStandard> {
     });
   }
 
-  Future<void> _setRandomBells(
-      {required AppState appState, required AudioState audioState}) async {
+  void _setRandomBells(
+      {required AppState appState, required AudioState audioState}) {
     int time = appState.openSession ? kOpenSessionMaxTime : appState.time;
 
     final timeToEnd = appState.elapsedTime == 0
         ? appState.countdownTime + time
         : time - appState.elapsedTime;
 
-    await _playerStart
+    /// Initialize the start and interval bells
+    _playerStart
         .setAsset('assets/audio/bells/${audioState.bellOnStartSound.name}.mp3')
-        .then((value) async {
+        .then((value) {
       _playerStart.setVolume(audioState.bellVolume);
     });
-    if (audioState.bellOnStartSound.name != kNone &&
-        appState.elapsedTime == 0) {
-      _timerStart =
-          Timer(Duration(milliseconds: appState.countdownTime), () async {
-        await _playerStart.seek(Duration.zero);
-        await _playerStart.play();
-      });
-    }
 
-    Future<void> calculateRandomTime(
-        int minRandomTime, int maxRandomTime) async {
+    _playerInterval
+        .setAsset('assets/audio/bells/${audioState.bellIntervalSound.name}.mp3')
+        .then((value) {
+      _playerInterval.setVolume(audioState.bellVolume);
+    });
+
+    /// Method to generate a random bell
+    void calculateRandomTime(int minRandomTime, int maxRandomTime) {
+      print('new time');
       Random random = Random();
       Duration duration = Duration(
           milliseconds:
               random.nextInt(maxRandomTime - minRandomTime) + minRandomTime);
       print('RANDOM TIME SET TO ${duration.inMilliseconds}');
-      _timerInterval = Timer(duration, () async {
-        await _playerInterval.seek(Duration.zero);
-        await _playerInterval.play();
+      _timerInterval = Timer(duration, () {
         calculateRandomTime(minRandomTime, maxRandomTime);
+        _playerInterval.seek(Duration.zero);
+        _playerInterval.play();
       });
     }
 
-    Timer(Duration(milliseconds: timeToEnd - 15000), () {
+    /// Bell on start (note: timer is set to zero if not session is resuming).
+    _timerStart = Timer(
+        Duration(
+            milliseconds:
+                appState.elapsedTime == 0 ? appState.countdownTime : 0), () {
+      /// Calculate a random time
+      calculateRandomTime(
+          audioState.bellRandom.min,
+          audioState.bellRandom.max == 60000
+              ? 45000
+              : audioState.bellRandom.min);
+
+      /// Play bell on start
+      if (audioState.bellOnStartSound.name != kNone &&
+          appState.elapsedTime == 0) {
+        _playerStart.play();
+      }
+    });
+
+    /// Cancel the end timer is session stopped or paused
+    _timerRandomEnd = Timer(Duration(milliseconds: timeToEnd - 15000), () {
       print('timer cancelled');
       _timerInterval?.cancel();
     });
-
-    calculateRandomTime(audioState.bellRandom.min,
-        audioState.bellRandom.max == 60000 ? 45000 : audioState.bellRandom.max);
   }
 
-  Future<void> _setEndBells(
-      {required AppState appState, required AudioState audioState}) async {
+  void _setEndBells(
+      {required AppState appState, required AudioState audioState}) {
     int time = appState.openSession ? kOpenSessionMaxTime : appState.time;
 
     final timeToEnd = appState.elapsedTime == 0
         ? appState.countdownTime + time
         : time - appState.elapsedTime;
 
-    await _playerEnd1
+    _playerEnd1
         .setAsset('assets/audio/bells/${audioState.bellOnEndSound.name}.mp3')
-        .then((value) async {
+        .then((value) {
       _playerEnd1.setVolume(audioState.bellVolume);
     });
-    await _playerEnd2
+    _playerEnd2
         .setAsset('assets/audio/bells/${audioState.bellOnEndSound.name}.mp3')
-        .then((value) async {
+        .then((value) {
       _playerEnd2.setVolume(audioState.bellVolume);
     });
 
-    _timerEnd1 = Timer(Duration(milliseconds: timeToEnd), () async {
-      await _playerEnd1.play();
+    _timerEnd1 = Timer(Duration(milliseconds: timeToEnd), () {
+      _playerEnd1.play();
 
       if (appState.vibrate) {
-        await Vibration.vibrate(duration: 3000);
+        Vibration.vibrate(duration: 3000);
       }
     });
 
-    _timerEnd2 = Timer(Duration(milliseconds: timeToEnd + kEndBellGap), () async {
-      await _playerEnd2.play();
+    _timerEnd2 = Timer(Duration(milliseconds: timeToEnd + kEndBellGap), () {
+      _playerEnd2.play();
     });
   }
 
-  Future<void> _reset() async {
-    await _playerStart.stop();
-    await _playerInterval.stop();
-    await _playerEnd1.stop();
-    await _playerEnd2.stop();
+  void _reset() {
+    _playerStart.stop();
+    _playerInterval.stop();
+    _playerEnd1.stop();
+    _playerEnd2.stop();
     _bellsAreSet = false;
     _timerStart?.cancel();
     _timerInterval?.cancel();
+    _timerRandomEnd?.cancel();
     _timerEnd1?.cancel();
     _timerEnd2?.cancel();
-
   }
 }
