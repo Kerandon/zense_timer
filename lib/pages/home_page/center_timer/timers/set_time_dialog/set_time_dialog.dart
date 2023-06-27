@@ -31,12 +31,18 @@ class SetTimeDialog extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              DialogSwitchListTile(
-                text: 'Open-ended session',
-                value: appState.openSession,
-                onChanged: (on) {
-                  appNotifier.setOpenSession(on);
-                },
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: size.width,
+                  minHeight: 1,
+                ),
+                child: DialogSwitchListTile(
+                  text: 'Open-ended session',
+                  value: appState.openSession,
+                  onChanged: (on) {
+                    appNotifier.setOpenSession(on);
+                  },
+                ),
               ),
               if (appState.openSession) ...[
                 SizedBox(

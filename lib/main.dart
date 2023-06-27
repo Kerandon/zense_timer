@@ -85,7 +85,7 @@ class ZenseAppState extends ConsumerState<ZenseApp> {
                 audioNotifier.setAllPrefs(prefsModel);
                 _prefsUpdated = true;
                 Timer(
-                  const Duration(milliseconds: 200),
+                  const Duration(milliseconds: 150),
                   () {
                     FlutterNativeSplash.remove();
                     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

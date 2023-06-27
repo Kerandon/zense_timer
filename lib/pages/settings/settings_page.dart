@@ -1,5 +1,3 @@
-import 'package:zense_timer/enums/platform.dart';
-import 'package:zense_timer/main.dart';
 import 'package:zense_timer/pages/settings/reset/reset_dialog.dart';
 import 'package:zense_timer/pages/settings/timer_design/timer_design_page.dart';
 import 'package:zense_timer/pages/settings/vibrate/vibrate_page.dart';
@@ -11,7 +9,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:zense_timer/utils/methods/date_time_methods.dart';
 import 'about/about_dialog.dart';
 import 'color_theme/color_theme_page.dart';
-import 'dnd/mute_device_page.dart';
 import 'faq/faq_page.dart';
 import 'guide_page/guide_page.dart';
 import 'components/settings_divider.dart';

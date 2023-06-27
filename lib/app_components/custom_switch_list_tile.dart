@@ -27,28 +27,34 @@ class CustomSwitchListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(
-        top: topPadding ? size.height * 0.02 : 0,
-        bottom: bottomPadding ? size.height * 0.02 : 0,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: size.width,
+        minHeight: 1,
       ),
-      child: SwitchListTile(
-        inactiveTrackColor: AppColors.disabledButton,
-        inactiveThumbColor: AppColors.onDisabledButton,
-        onChanged: disable ? null : onChanged,
-        value: value,
-        title: Text(
-          title,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: topPadding ? size.height * 0.02 : 0,
+          bottom: bottomPadding ? size.height * 0.02 : 0,
         ),
-        secondary: Icon(icon),
-        subtitle: subtitle != null
-            ? Text(
-                subtitle!,
-                style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: AppColors.disabledButton,
-                    ),
-              )
-            : null,
+        child: SwitchListTile(
+          inactiveTrackColor: AppColors.disabledButton,
+          inactiveThumbColor: AppColors.onDisabledButton,
+          onChanged: disable ? null : onChanged,
+          value: value,
+          title: Text(
+            title,
+          ),
+          secondary: Icon(icon),
+          subtitle: subtitle != null
+              ? Text(
+                  subtitle!,
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: AppColors.disabledButton,
+                      ),
+                )
+              : null,
+        ),
       ),
     );
   }

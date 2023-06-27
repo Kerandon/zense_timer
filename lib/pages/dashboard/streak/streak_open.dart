@@ -136,6 +136,7 @@ class _StreakOpenState extends State<StreakOpen> {
                         padding: EdgeInsets.only(top: size.height * 0.10),
                         child: SizedBox(
                           child: HeadlineTile(
+                            removeBackgroundColor: true,
                             content: FadeInAnimation(
                               delayMilliseconds: kFadeInDelayMilliseconds,
                               child: RichText(

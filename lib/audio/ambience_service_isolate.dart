@@ -10,6 +10,8 @@ import '../configs/constants.dart';
 import '../state/app_state.dart';
 import '../state/audio_state.dart';
 
+
+
 @pragma('vm:entry-point')
 void playAmbience(dynamic args) {
   String ambience = args[0];
@@ -19,7 +21,7 @@ void playAmbience(dynamic args) {
   int sessionTimeRemaining = args[4];
   SendPort sendPort = args[5];
 
-  if(ambience == kNone){
+  if (ambience == kNone) {
     ambience = 'blank';
   }
   final ambiencePlayer = AudioPlayer();
@@ -33,7 +35,6 @@ void playAmbience(dynamic args) {
             const Duration(milliseconds: 1))
         .listen((event) {
       final percent = 1 - (event.remaining.inMilliseconds / kAmbienceFadeTime);
-
       ambiencePlayer.setVolume(percent * volume);
     });
 
@@ -45,6 +46,8 @@ void playAmbience(dynamic args) {
 
   /// Fade out and end ambience
   final timeToEnd = sessionTimeRemaining - kAmbienceFadeTime;
+
+  print('********* TIME TO END $timeToEnd');
 
   Timer(Duration(milliseconds: timeToEnd), () {
     CountdownTimer(const Duration(milliseconds: kAmbienceFadeTime),
@@ -68,7 +71,6 @@ class AmbienceServiceIsolate extends ConsumerStatefulWidget {
 
 class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
   bool _ambienceHasStarted = false;
-  bool _ambienceHasResumed = true;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,6 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
     /// Reset when [notStarted] state
     if (appState.sessionState == SessionState.notStarted) {
       _ambienceHasStarted = false;
-      _ambienceHasResumed = true;
       _stop();
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         audioNotifier.setAmbiencePosition(0);
@@ -94,23 +95,14 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
           audioState: audioState,
           audioNotifier: audioNotifier,
           appState: appState,
-          firstPlay: true,
-        );
-      }
-      if (!_ambienceHasResumed && audioState.ambiencePosition > 0) {
-        _ambienceHasResumed = true;
-        _play(
-          audioState: audioState,
-          audioNotifier: audioNotifier,
-          appState: appState,
-          firstPlay: false,
+          firstPlay: appState.elapsedTime == 0,
         );
       }
     }
 
     if (appState.sessionState == SessionState.paused) {
       _stop();
-      _ambienceHasResumed = false;
+      _ambienceHasStarted = false;
     }
 
     return const SizedBox();
@@ -130,19 +122,29 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
 
     final port = ReceivePort();
     List<dynamic> variables = [
+      ///ambience
       audioState.ambience.name,
+      ///volume
       audioState.ambienceVolume,
+      ///start position
       audioState.ambiencePosition,
+      ///countdown
       firstPlay ? appState.countdownTime : 0,
-      firstPlay ? time + appState.countdownTime : time - appState.elapsedTime + appState.countdownTime,
+      /// time remaining
+      firstPlay
+          ? time + appState.countdownTime
+          : time - (appState.elapsedTime - appState.countdownTime),
+      /// port
       port.sendPort
     ];
-
-    print('session time remaining${firstPlay ? time + appState.countdownTime : time - appState.elapsedTime + appState.countdownTime}');
-      FlutterIsolate.spawn(playAmbience, variables);
-      port.listen((position) {
-        audioNotifier.setAmbiencePosition(position);
-      });
+    print(
+        'session time remaining${firstPlay
+            ? time + appState.countdownTime
+            : time - (appState.elapsedTime - appState.countdownTime)}');
+    FlutterIsolate.spawn(playAmbience, variables);
+    port.listen((position) {
+      audioNotifier.setAmbiencePosition(position);
+    });
   }
 
   void _stop() {

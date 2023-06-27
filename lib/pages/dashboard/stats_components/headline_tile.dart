@@ -6,9 +6,11 @@ class HeadlineTile extends StatelessWidget {
   const HeadlineTile({
     super.key,
     required this.content,
+    this.removeBackgroundColor = false,
   });
 
   final Widget content;
+  final bool removeBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class HeadlineTile extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(kBorderRadiusBig),
-            color: Theme.of(context).colorScheme.surface,
+            color: removeBackgroundColor ? Colors.transparent : Theme.of(context).colorScheme.surface,
           ),
           width: size.width,
           child: Center(
