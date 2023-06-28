@@ -42,11 +42,13 @@ class _StreakOpenState extends State<StreakOpen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CustomLoadingIndicator();
         }
+        bool hasData = false;
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
             stats = snapshot.data!;
             currentStreak = getCurrentStreak(stats);
             bestStreak = getBestStreak(stats);
+            hasData = true;
           }
         }
 
@@ -91,10 +93,10 @@ class _StreakOpenState extends State<StreakOpen> {
                               BoxConstraints(minHeight: size.height * 0.25),
                           child: Center(
                             child: Shimmer.fromColors(
-                                baseColor: currentStreak > 0
+                                baseColor: hasData
                                     ? Theme.of(context).colorScheme.primary
                                     : Colors.grey,
-                                highlightColor: currentStreak > 0
+                                highlightColor: hasData
                                     ? Theme.of(context).colorScheme.secondary
                                     : Colors.grey,
                                 delay: const Duration(seconds: 6),
@@ -108,10 +110,8 @@ class _StreakOpenState extends State<StreakOpen> {
                       FadeInAnimation(
                         delayMilliseconds: kFadeInDelayMilliseconds,
                         child: Shimmer.fromColors(
-                          baseColor:
-                              currentStreak > 0 ? Colors.amber : Colors.grey,
-                          highlightColor:
-                              currentStreak > 0 ? Colors.yellow : Colors.grey,
+                          baseColor: hasData ? Colors.amber : Colors.grey,
+                          highlightColor: hasData ? Colors.yellow : Colors.grey,
                           delay: const Duration(seconds: 2),
                           child: Text(
                             currentStreak.toString(),
@@ -151,7 +151,7 @@ class _StreakOpenState extends State<StreakOpen> {
                                             .textTheme
                                             .bodyLarge!
                                             .copyWith(
-                                                color: currentStreak > 0
+                                                color: hasData
                                                     ? Theme.of(context)
                                                         .colorScheme
                                                         .primary

@@ -8,7 +8,6 @@ import 'package:zense_timer/models/prefs_model.dart';
 import 'package:zense_timer/state/app_state.dart';
 import 'package:zense_timer/state/database_service.dart';
 import 'package:zense_timer/state/life_cycle_state.dart';
-import 'package:zense_timer/utils/methods/ringer_status_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -120,11 +119,11 @@ class ZenseAppState extends ConsumerState<ZenseApp> {
 
         /// Gets the user's preferred [RingerModeStatus] so when the app is not in progress, will
         /// revert to this status, or when the app exits.
-        getRingerModeStatus().then((status) async {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            appNotifier.setOriginalRingerModeStatus(status);
-          });
-        });
+        // getRingerModeStatus().then((status) async {
+        //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        //     appNotifier.setOriginalRingerModeStatus(status);
+        //   });
+        // });
 
         return MaterialApp(
           title: kAppName,
@@ -133,7 +132,7 @@ class ZenseAppState extends ConsumerState<ZenseApp> {
           home: Stack(
             children: [
               UpgradeAlert(),
-              const LifecycleState(),
+              // const LifecycleState(),
               // const OnFirstInit(),
               const HomePage(),
             ],

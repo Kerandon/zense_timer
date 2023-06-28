@@ -10,8 +10,6 @@ import '../configs/constants.dart';
 import '../state/app_state.dart';
 import '../state/audio_state.dart';
 
-
-
 @pragma('vm:entry-point')
 void playAmbience(dynamic args) {
   String ambience = args[0];
@@ -46,8 +44,6 @@ void playAmbience(dynamic args) {
 
   /// Fade out and end ambience
   final timeToEnd = sessionTimeRemaining - kAmbienceFadeTime;
-
-  print('********* TIME TO END $timeToEnd');
 
   Timer(Duration(milliseconds: timeToEnd), () {
     CountdownTimer(const Duration(milliseconds: kAmbienceFadeTime),
@@ -124,23 +120,25 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
     List<dynamic> variables = [
       ///ambience
       audioState.ambience.name,
+
       ///volume
       audioState.ambienceVolume,
+
       ///start position
       audioState.ambiencePosition,
+
       ///countdown
       firstPlay ? appState.countdownTime : 0,
+
       /// time remaining
       firstPlay
           ? time + appState.countdownTime
           : time - (appState.elapsedTime - appState.countdownTime),
+
       /// port
       port.sendPort
     ];
-    print(
-        'session time remaining${firstPlay
-            ? time + appState.countdownTime
-            : time - (appState.elapsedTime - appState.countdownTime)}');
+
     FlutterIsolate.spawn(playAmbience, variables);
     port.listen((position) {
       audioNotifier.setAmbiencePosition(position);

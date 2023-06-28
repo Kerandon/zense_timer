@@ -1,4 +1,3 @@
-import 'package:zense_timer/configs/constants.dart';
 import '../models/panel.dart';
 
 List<Panel> faqPanels = [

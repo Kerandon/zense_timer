@@ -17,6 +17,7 @@ enum Prefs {
   showTimer,
   timerDesign,
   reverseTimer,
+  showClock,
   vibrate,
   muteDevice,
   keepAwake

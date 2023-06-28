@@ -1,11 +1,11 @@
 import 'package:zense_timer/app_components/custom_button.dart';
+import 'package:zense_timer/app_components/custom_switch_list_tile.dart';
 import 'package:zense_timer/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../../animation/fade_in_animation.dart';
 import '../../../../../app_components/animated_icons/animated_infinity_icon.dart';
-import '../../../../../app_components/dialog_switch_list_tile.dart';
 import '../../../../../configs/constants.dart';
 import 'time_picker_main.dart';
 
@@ -36,12 +36,10 @@ class SetTimeDialog extends ConsumerWidget {
                   minWidth: size.width,
                   minHeight: 1,
                 ),
-                child: DialogSwitchListTile(
-                  text: 'Open-ended session',
+                child: CustomSwitchListTile(
+                  title: 'Open-ended session',
                   value: appState.openSession,
-                  onChanged: (on) {
-                    appNotifier.setOpenSession(on);
-                  },
+                  onChanged: (on) => appNotifier.setOpenSession(on),
                 ),
               ),
               if (appState.openSession) ...[

@@ -5,7 +5,6 @@ import 'package:zense_timer/pages/home_page/control_buttons/start_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../animation/pop_animation.dart';
-import '../../../configs/constants.dart';
 import '../../../enums/session_state.dart';
 import '../../../state/app_state.dart';
 import '../../../state/database_service.dart';

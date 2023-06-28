@@ -27,7 +27,7 @@ const kFadeInDelayMilliseconds = 200;
 const kScaleInBegin = 0.95;
 
 /// VIBRATION
-const kVibrationDuration = 3000;
+const kVibrateDuration = 5000;
 
 /// DUPLICATE
 const kPageIndentation = 0.03;

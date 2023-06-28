@@ -40,11 +40,12 @@ class AppState {
   final bool showTimer;
   final TimerDesign timerDesign;
   final bool reverseTimer;
+  final bool showClock;
 
   ///VIBRATE
   final bool vibrate;
 
-  //WAKELOCK
+  ///WAKELOCK
   final bool keepAwake;
 
   AppState({
@@ -65,6 +66,7 @@ class AppState {
     required this.followOSTheme,
     required this.darkTheme,
     required this.showTimer,
+    required this.showClock,
     required this.timerDesign,
     required this.reverseTimer,
     required this.vibrate,
@@ -90,6 +92,7 @@ class AppState {
     bool? followOSTheme,
     bool? darkTheme,
     bool? showTimer,
+    bool? showClock,
     TimerDesign? timerDesign,
     bool? reverseTimer,
     bool? vibrate,
@@ -111,6 +114,7 @@ class AppState {
       followOSTheme: followOSTheme ?? this.followOSTheme,
       darkTheme: darkTheme ?? this.darkTheme,
       showTimer: showTimer ?? this.showTimer,
+      showClock: showClock ?? this.showClock,
       timerDesign: timerDesign ?? this.timerDesign,
       reverseTimer: reverseTimer ?? this.reverseTimer,
       originalRingerModeStatus:
@@ -265,6 +269,15 @@ class AppNotifier extends StateNotifier<AppState> {
     }
   }
 
+  void setShowClock(bool show, {bool insertInDatabase = true}) async {
+    state = state.copyWith(showClock: show);
+    if (insertInDatabase) {
+      ///to-do show clock
+      await DatabaseServiceAppData()
+          .insertIntoPrefs(k: Prefs.reverseTimer.name, v: show);
+    }
+  }
+
   void setVibrate(bool vibrate, {bool insertInDatabase = true}) async {
     state = state.copyWith(vibrate: vibrate);
     if (insertInDatabase) {
@@ -273,9 +286,9 @@ class AppNotifier extends StateNotifier<AppState> {
     }
   }
 
-  void setOriginalRingerModeStatus(RingerModeStatus status) {
-    state = state.copyWith(originalRingerModeStatus: status);
-  }
+  // void setOriginalRingerModeStatus(RingerModeStatus status) {
+  //   state = state.copyWith(originalRingerModeStatus: status);
+  // }
 
   void setMuteDevice(bool mute, {bool insertInDatabase = true}) async {
     state = state.copyWith(muteDevice: mute);
@@ -336,6 +349,7 @@ final appProvider = StateNotifierProvider<AppNotifier, AppState>((ref) {
     followOSTheme: false,
     darkTheme: true,
     showTimer: true,
+    showClock: true,
     timerDesign: TimerDesign.circle,
     reverseTimer: true,
     vibrate: true,

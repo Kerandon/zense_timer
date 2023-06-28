@@ -17,10 +17,8 @@ class DialogSwitchListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: size.width,
-        minHeight: size.height * 0.08
-      ),
+      constraints:
+          BoxConstraints(minWidth: size.width, minHeight: size.height * 0.08),
       child: SwitchListTile(
         inactiveTrackColor: AppColors.disabledButton,
         inactiveThumbColor: AppColors.onDisabledButton,

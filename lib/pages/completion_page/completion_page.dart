@@ -113,8 +113,8 @@ class _CompletionPageState extends ConsumerState<CompletionPage> {
                       SizedBox(
                         height: size.height * 0.20,
                         child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: size.height * 0.015),
+                          padding: EdgeInsets.symmetric(
+                              vertical: size.height * 0.015),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -172,8 +172,8 @@ class _CompletionPageState extends ConsumerState<CompletionPage> {
                         width: size.width * kButtonWidth,
                         height: size.height * 0.15,
                         child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: size.height * 0.03),
+                          padding: EdgeInsets.symmetric(
+                              vertical: size.height * 0.03),
                           child: IconButton(
                             icon: Icon(
                               Icons.refresh_outlined,

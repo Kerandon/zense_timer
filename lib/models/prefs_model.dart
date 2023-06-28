@@ -29,6 +29,7 @@ class PrefsModel extends Equatable {
   final bool showTimer;
   final TimerDesign timerDesign;
   final bool reverseTimer;
+  final bool showClock;
   final bool vibrate;
   final bool muteDevice;
   final bool keepAwake;
@@ -53,6 +54,7 @@ class PrefsModel extends Equatable {
     required this.showTimer,
     required this.timerDesign,
     required this.reverseTimer,
+    required this.showClock,
     required this.vibrate,
     required this.muteDevice,
     required this.keepAwake,
@@ -81,6 +83,7 @@ class PrefsModel extends Equatable {
     bool showTimer = true;
     TimerDesign timerDesign = TimerDesign.circle;
     bool reverseTimer = true;
+    bool showClock = true;
     bool vibrate = true;
     bool muteDevice = false;
     bool keepAwake = true;
@@ -180,6 +183,10 @@ class PrefsModel extends Equatable {
           ? reverseTimer = mapList[i].entries.elementAt(1).value == 1
           : null;
 
+      prefKey == Prefs.showClock.name
+          ? showClock = mapList[i].entries.elementAt(1).value == 1
+          : null;
+
       prefKey == Prefs.vibrate.name
           ? vibrate = mapList[i].entries.elementAt(1).value == 1
           : null;
@@ -212,6 +219,7 @@ class PrefsModel extends Equatable {
       showTimer: showTimer,
       timerDesign: timerDesign,
       reverseTimer: reverseTimer,
+      showClock: showClock,
       vibrate: vibrate,
       muteDevice: muteDevice,
       keepAwake: keepAwake,
@@ -242,6 +250,7 @@ class PrefsModel extends Equatable {
       Prefs.showTimer.name: showTimer,
       Prefs.timerDesign.name: timerDesign.name,
       Prefs.reverseTimer.name: reverseTimer,
+      Prefs.showClock.name: showClock,
       Prefs.vibrate.name: vibrate,
     };
   }
@@ -310,6 +319,7 @@ class PrefsModel extends Equatable {
       showTimer: data[Prefs.showTimer.name] ?? true,
       timerDesign: timerDesign,
       reverseTimer: data[Prefs.reverseTimer.name] ?? true,
+      showClock: data[Prefs.showClock.name] ?? true,
       vibrate: data[Prefs.vibrate.name] ?? true,
       muteDevice: data[Prefs.muteDevice.name] ?? false,
       keepAwake: data[Prefs.keepAwake.name] ?? true,

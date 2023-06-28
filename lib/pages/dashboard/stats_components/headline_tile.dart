@@ -23,7 +23,9 @@ class HeadlineTile extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(kBorderRadiusBig),
-            color: removeBackgroundColor ? Colors.transparent : Theme.of(context).colorScheme.surface,
+            color: removeBackgroundColor
+                ? Colors.transparent
+                : Theme.of(context).colorScheme.surface,
           ),
           width: size.width,
           child: Center(

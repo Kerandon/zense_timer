@@ -22,9 +22,6 @@ void playFixedBellsIsolate(dynamic args) {
   double volume = args[5];
   int timeToEnd = args[6];
 
-  print(
-      'time to start $timeToStart, interval time $intervalTime and time to end ');
-
   final bellPlayer1 = AudioPlayer();
   final bellPlayer2 = AudioPlayer();
   bellPlayer1.setAsset('assets/audio/bells/$startSound.mp3').then((value) {
@@ -38,7 +35,6 @@ void playFixedBellsIsolate(dynamic args) {
 
   Timer(Duration(milliseconds: timeToStart), () {
     if (bellOnStart) {
-      print('play first bell');
       bellPlayer1.play();
     }
     periodicTimer =
@@ -51,7 +47,6 @@ void playFixedBellsIsolate(dynamic args) {
   });
 
   Timer(Duration(milliseconds: timeToEnd - kEndBellCutOff), () {
-    print('timer cancelled');
     periodicTimer?.cancel();
   });
 }
@@ -70,7 +65,7 @@ void playRandomBells(dynamic args) {
   final bellPlayer1 = AudioPlayer();
   final bellPlayer2 = AudioPlayer();
   if (timeToEnd == 60000) {
-    maxRandom = 45000;
+    maxRandom = (60000 - kEndBellCutOff);
   }
 
   bellPlayer1.setAsset('assets/audio/bells/$startSound.mp3').then((value) {
@@ -94,7 +89,7 @@ void playRandomBells(dynamic args) {
     Duration duration = Duration(
         milliseconds:
             random.nextInt(maxRandomTime - minRandomTime) + minRandomTime);
-    print('RANDOM TIME SET TO ${duration.inMilliseconds}');
+
     bellTimer = Timer(duration, () {
       bellPlayer2.seek(Duration.zero);
       bellPlayer2.play();
@@ -103,7 +98,6 @@ void playRandomBells(dynamic args) {
   }
 
   Timer(Duration(milliseconds: timeToEnd - kEndBellCutOff), () {
-    print('timer cancelled');
     bellTimer?.cancel();
   });
 
@@ -131,7 +125,7 @@ void playEndBell(dynamic args) {
     bellPlayer1.play();
 
     if (vibrate) {
-      Vibration.vibrate(duration: 4000);
+      Vibration.vibrate(duration: kVibrateDuration);
     }
   });
 
@@ -196,18 +190,16 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
       }
     } else {
       /// on RESUME
-      final remainingTime = time - appState.elapsedTime;
+      final remainingTime =
+          time - (appState.elapsedTime - appState.countdownTime);
       totalIntervalBells =
           (remainingTime / audioState.bellFixedTime).floor() - 1;
-      print('REMAINING TIME IS $remainingTime and total interval bells $totalIntervalBells');
       timeToStart = remainingTime;
 
       for (int i = 0; i < (totalIntervalBells + 1); i++) {
         timeToStart -= audioState.bellFixedTime;
       }
     }
-
-    print('time to start is $timeToStart');
 
     /// Time to end
     final timeToEnd = appState.elapsedTime == 0
