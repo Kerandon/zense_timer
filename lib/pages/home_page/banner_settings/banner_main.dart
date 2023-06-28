@@ -77,7 +77,7 @@ class _BannerMainState extends ConsumerState<BannerMain> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
-          height: kToolbarHeight * 1.80,
+          height: kToolbarHeight * 1.55,
           width: size.width,
           child: appState.sessionState == SessionState.notStarted
               ? IgnorePointer(

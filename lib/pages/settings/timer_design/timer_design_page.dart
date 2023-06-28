@@ -1,3 +1,4 @@
+import 'package:zense_timer/app_components/app_icon.dart';
 import 'package:zense_timer/app_components/custom_animated_grid_box.dart';
 import 'package:zense_timer/pages/home_page/center_timer/custom_clocks/custom_timer_background.dart';
 import 'package:zense_timer/state/app_state.dart';
@@ -148,7 +149,7 @@ class _TimerDesignPageState extends ConsumerState<TimerFacePage>
                   }
 
                   return CustomAnimatedGridBox(
-                    labelText: design.name,
+                    //labelText: design.name,
                     onPressed: state.showTimer
                         ? () {
                             notifier.setTimerDesign(design);
@@ -189,6 +190,10 @@ class _TimerDesignPageState extends ConsumerState<TimerFacePage>
                             ),
                           ),
                         ),
+                        if (state.showClock) ...[
+                          Center(child: Icon(Icons.onetwothree_outlined, size: 35,))
+                        ],
+                        if (!state.showClock) ...[Center(child: AppIcon())],
                       ],
                     ),
                     labelAlignment: Alignment.center,

@@ -22,7 +22,7 @@ List<Panel> faqPanels = [
       'Tap the music note icon on the ambient track you have selected.'
           '\n\nThen, a pop-up menu will appear where you can adjust the audio volume.'),
   Panel('Why can\'t I see the timer clock when a session is in progress?',
-      'In Settings > Timer face make sure \'Show clock\' is turned on'),
+      'Navigate to \'Timer face\' in the \'Settings\' menu and make sure \'Show clock\' is turned on'),
   Panel(
       'How can I create a new preset?',
       'Tap the preset icon on the home screen (bottom center-right).'
@@ -36,6 +36,10 @@ List<Panel> faqPanels = [
       'Tap the dashboard icon on the home screen (bottom-right).'
           '\n\nThen tap the edit icon (top right) to view, and delete, your meditation records.\n\n'
           'Alternatively, you can reset all you saved data via \'Reset\' in Settings.'),
+  Panel(
+      'How can I create a new preset?',
+      'Tap the preset icon on the home screen (bottom center-right).'
+          '\n\nThen tap the plus icon to save the current timer settings as a new preset with a custom name.'),
   Panel('How is my streak calculated?',
       'The number of consecutive days you have meditated for at least once a day for 1 minute or longer.'),
   Panel('Is my personal/meditation data secure?',

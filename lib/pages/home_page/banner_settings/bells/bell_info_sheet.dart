@@ -112,14 +112,6 @@ class _BellInfoSheetState extends ConsumerState<BellInfoSheet> {
               Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.01),
-                    child: Text('Set interval bell type',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontStyle: FontStyle.italic)),
-                  ),
-                  Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: size.height * 0.01,
                     ),

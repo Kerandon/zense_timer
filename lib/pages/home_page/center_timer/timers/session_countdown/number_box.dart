@@ -16,7 +16,7 @@ class NumberBox extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appState = ref.watch(appProvider);
     return SizedBox(
-      width: 26,
+      width: 22,
       height: 60,
       child: Center(
         child: Text(

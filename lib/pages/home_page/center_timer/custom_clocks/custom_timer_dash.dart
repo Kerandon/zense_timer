@@ -19,7 +19,6 @@ class CustomTimerDash extends CustomPainter {
     double radius = math.min(
         centerX * kTimerRadius * kDashRadiusMultiplier, centerY * kTimerRadius);
     double dashBuffer = size.width * kDashBuffer;
-    int dashBufferMultiplier = kDashBufferMultiplier;
     final strokeWidth = (size.width * kDashWidth);
 
     var dashBrush = Paint()
@@ -34,10 +33,10 @@ class CustomTimerDash extends CustomPainter {
       var y1 = center.dy + (radius + dashBuffer) * math.sin(i * math.pi / 180);
 
       var x2 = center.dx +
-          (radius + dashBuffer * dashBufferMultiplier) *
+          (radius + dashBuffer * kDashBufferMultiplier) *
               math.cos(i * math.pi / 180);
       var y2 = center.dy +
-          (radius + dashBuffer * dashBufferMultiplier) *
+          (radius + dashBuffer * kDashBufferMultiplier) *
               math.sin(i * math.pi / 180);
 
       canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashBrush);

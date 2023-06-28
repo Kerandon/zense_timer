@@ -31,10 +31,9 @@ void playAmbience(dynamic args) {
     countdownPlayer.play();
   });
 
-  Timer(Duration(milliseconds: countdown + 5000),(){
+  Timer(Duration(milliseconds: countdown + 5000), () {
     countdownPlayer.stop();
   });
-
 
   final ambiencePlayer = AudioPlayer();
   ambiencePlayer.setAsset('assets/audio/ambience/$ambience.mp3');
@@ -47,7 +46,11 @@ void playAmbience(dynamic args) {
             const Duration(milliseconds: 1))
         .listen((event) {
       final percent = 1 - (event.remaining.inMilliseconds / kAmbienceFadeTime);
-      ambiencePlayer.setVolume(percent * volume);
+      if (ambience == kNone) {
+        ambiencePlayer.setVolume(0.01);
+      } else {
+        ambiencePlayer.setVolume(percent * volume);
+      }
     });
 
     ambiencePlayer.positionStream.listen((event) {
@@ -89,7 +92,8 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
     final audioNotifier = ref.read(audioProvider.notifier);
 
     /// Reset when [notStarted] state
-    if (appState.sessionState == SessionState.notStarted) {
+    if (appState.sessionState == SessionState.notStarted ||
+        appState.sessionState == SessionState.ended) {
       _ambienceHasStarted = false;
       _stop();
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

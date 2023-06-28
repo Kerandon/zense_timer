@@ -27,53 +27,31 @@ class CustomSwitchListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: size.width * 0.60,
-        minHeight: size.height * 0.05,
-        maxWidth: size.width,
-        maxHeight: size.height * 0.15,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: topPadding ? size.height * 0.02 : 0,
+        bottom: bottomPadding ? size.height * 0.02 : 0,
       ),
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: topPadding ? size.height * 0.02 : 0,
-          bottom: bottomPadding ? size.height * 0.02 : 0,
-        ),
-        child: ListTile(
-          subtitle: subtitle != null
-              ? Text(
-                  subtitle!,
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        color: AppColors.disabledButton,
-                      ),
-                )
-              : null,
-          leading: icon == null
-              ? null
-              : ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minWidth: size.width * 0.05,
-                    minHeight: size.height * 0.05,
-                    maxWidth: size.width * 0.20,
-                    maxHeight: size.height * 0.15,
-                  ),
-                  child: Icon(
-                    icon,
-                  ),
-                ),
-          title: Text(title),
-          trailing: ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: size.width * 0.05,
-              minHeight: size.height * 0.05,
-              maxWidth: size.width * 0.20,
-              maxHeight: size.height * 0.15,
+      child: ListTile(
+        subtitle: subtitle != null
+            ? Text(
+                subtitle!,
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                      color: AppColors.disabledButton,
+                    ),
+              )
+            : null,
+        leading: icon == null
+            ? null
+            : Icon(
+              icon,
             ),
-            child: Switch(
-              value: value,
-              onChanged: disable ? null : onChanged,
-            ),
-          ),
+        title: Text(title),
+        trailing: Switch(
+          inactiveThumbColor: Theme.of(context).colorScheme.onInverseSurface,
+          inactiveTrackColor: AppColors.disabledButton,
+          value: value,
+          onChanged: disable ? null : onChanged,
         ),
       ),
     );

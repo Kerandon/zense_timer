@@ -48,7 +48,7 @@ const kNone = 'none';
 /// CUSTOM TIMERS
 
 const kDotSize = 0.01;
-const kDashBufferMultiplier = 4;
+const kDashBufferMultiplier = 6;
 const kNumberOfCirclesMultiplier = 3;
 const kClockTimerRadiusMultiplier = 0.85;
 const kStrokeWidth = 0.012;

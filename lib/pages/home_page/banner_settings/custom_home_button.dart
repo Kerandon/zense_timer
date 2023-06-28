@@ -32,7 +32,7 @@ class CustomHomeButton extends StatelessWidget {
                 child: Center(
                     child: Icon(
                   iconData,
-                  size: 35,
+                  size: 40,
                   color: Theme.of(context).colorScheme.primary,
                 )),
               ),
