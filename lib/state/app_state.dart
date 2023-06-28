@@ -272,9 +272,8 @@ class AppNotifier extends StateNotifier<AppState> {
   void setShowClock(bool show, {bool insertInDatabase = true}) async {
     state = state.copyWith(showClock: show);
     if (insertInDatabase) {
-      ///to-do show clock
       await DatabaseServiceAppData()
-          .insertIntoPrefs(k: Prefs.reverseTimer.name, v: show);
+          .insertIntoPrefs(k: Prefs.showClock.name, v: show);
     }
   }
 
@@ -324,6 +323,7 @@ class AppNotifier extends StateNotifier<AppState> {
         showTimer: prefsModel.showTimer,
         timerDesign: prefsModel.timerDesign,
         reverseTimer: prefsModel.reverseTimer,
+        showClock: prefsModel.showClock,
         muteDevice: prefsModel.muteDevice,
         vibrate: prefsModel.vibrate,
         keepAwake: prefsModel.keepAwake,

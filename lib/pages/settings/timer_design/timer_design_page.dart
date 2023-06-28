@@ -82,19 +82,26 @@ class _TimerDesignPageState extends ConsumerState<TimerFacePage>
             SliverToBoxAdapter(
               child: CustomSwitchListTile(
                   topPadding: true,
-                  title: 'Show timer',
+                  title: 'Show progress bar',
                   icon: FontAwesomeIcons.clock,
                   value: state.showTimer,
                   onChanged: (value) => notifier.showTimerDesign(value)),
             ),
             SliverToBoxAdapter(
               child: CustomSwitchListTile(
-                title: 'Reverse timer',
+                title: 'Reverse progress bar',
                 icon: FontAwesomeIcons.clockRotateLeft,
                 value: state.reverseTimer,
                 onChanged: (value) => notifier.setReverseTimer(value),
-                bottomPadding: true,
               ),
+            ),
+            SliverToBoxAdapter(
+              child: CustomSwitchListTile(
+                  bottomPadding: true,
+                  title: 'Show clock',
+                  icon: Icons.onetwothree_outlined,
+                  value: state.showClock,
+                  onChanged: (value) => notifier.setShowClock(value)),
             ),
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

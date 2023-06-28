@@ -5,9 +5,9 @@ List<Panel> faqPanels = [
       'Tap on \'SET TIME\' on the home screen and switch on \'Open-ended session\'.'),
   Panel(
       'How can I adjust the meditation bells?',
-      'Tap on the bottom left icon on the home screen.'
+      'Tap on the bell icon on the home screen (bottom-left).'
           '\n\n'
-          'A new menu will appear where you can set the start, interval and end bells.'),
+          'A menu will appear where you can adjust the start, interval and end bells.'),
   Panel(
       'Why can\'t I increase the bell interval frequency?',
       'The bell interval frequency is limited by the total time set. '
@@ -15,7 +15,7 @@ List<Panel> faqPanels = [
           'timer to an open-ended session.'),
   Panel(
       'How can I add in ambient sounds or music?',
-      'Tap the bottom center-left icon on the home screen. '
+      'Tap the music icon on the home screen (bottom center-left). '
           '\n\nA series of ambient tracks, from nature sounds to meditation music, will then be available to select from.'),
   Panel(
       'How can I adjust the ambience volume?',
@@ -31,13 +31,13 @@ List<Panel> faqPanels = [
           '\n\nThen, tap on the three dots icon (top-right), which will give you the option to delete the preset.'),
   Panel(
       'How can I delete a meditation record in my dashboard stats?',
-      'First navigate to the dashboard screen (by tapping the bottom-right stats icon on the home screen). '
-          '\n\nThen tap the edit icon in the top right to view, and delete, your meditation records.\n\n'
-          'Alternatively, you can reset all you saved settings (and meditation data) via \'Reset\' in Settings.'),
+      'Tap the dashboard icon on the home screen (bottom-right).'
+          '\n\nThen tap the edit icon (top right) to view, and delete, your meditation records.\n\n'
+          'Alternatively, you can reset all you saved data via \'Reset\' in Settings.'),
   Panel('How is my streak calculated?',
       'The number of consecutive days you have meditated for at least once a day for 1 minute or longer.'),
-  Panel('Why can\'t I see the progress timer?',
-      'The progress timer will only show when the timer is set to a fixed time. It will not show during an open-ended session.'),
+  Panel('Why can\'t I see the timer clock when a session is in progress?',
+      'In Settings > Timer face make sure \'Show clock\' is turned on'),
   Panel('Is my personal/meditation data secure?',
       'Yes. This app does not save any data to a cloud database. All your data is 100% saved locally on your device only.\n\n')
 ];

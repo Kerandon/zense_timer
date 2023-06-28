@@ -51,8 +51,16 @@ class CustomSwitchListTile extends StatelessWidget {
 
           //   inactiveTrackColor: AppColors.disabledButton,
           //   inactiveThumbColor: AppColors.onDisabledButton,
-          leading: Icon(
-            icon,
+          leading: ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth: size.width * 0.05,
+              minHeight: size.height * 0.05,
+              maxWidth: size.width * 0.10,
+              maxHeight: size.height * 0.15,
+            ),
+            child: Icon(
+              icon,
+            ),
           ),
           title: Text(title),
           trailing: ConstrainedBox(

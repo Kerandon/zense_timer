@@ -7,7 +7,6 @@ import 'package:zense_timer/state/audio_state.dart';
 import 'package:zense_timer/models/prefs_model.dart';
 import 'package:zense_timer/state/app_state.dart';
 import 'package:zense_timer/state/database_service.dart';
-import 'package:zense_timer/state/life_cycle_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

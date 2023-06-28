@@ -1,3 +1,4 @@
+import 'package:zense_timer/app_components/app_icon.dart';
 import 'package:zense_timer/enums/session_state.dart';
 import 'package:zense_timer/pages/home_page/center_timer/timers/session_countdown/session_timer.dart';
 import 'package:flutter/material.dart';
@@ -129,11 +130,30 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
       _appStateTimer?.cancel();
     }
 
+    bool showClock = true;
+
+    if (!appState.showClock) {
+      if (appState.sessionState == SessionState.countdown ||
+          appState.sessionState == SessionState.inProgress ||
+          appState.sessionState == SessionState.paused) {
+        showClock = false;
+      }
+    }
+
     return Stack(
       children: [
-        const Align(
-          child: SessionTimer(),
-        ),
+        if (showClock) ...[
+          const Align(
+            child: SessionTimer(),
+          ),
+        ],
+        if (!showClock) ...[
+          const Center(
+            child: AppIcon(
+              width: 0.12,
+            ),
+          )
+        ],
         if (appState.sessionState == SessionState.notStarted) ...[
           IgnorePointer(
             child: Align(
