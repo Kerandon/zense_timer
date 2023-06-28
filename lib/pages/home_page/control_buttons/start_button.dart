@@ -29,7 +29,7 @@ class StartButton extends ConsumerWidget {
           appState.sessionState == SessionState.paused,
       child: SizedBox(
         width: size.width * 0.80,
-        height: size.height * 0.09,
+        height: size.height * 0.08,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(kBorderRadiusBig),
           child: DecoratedBox(

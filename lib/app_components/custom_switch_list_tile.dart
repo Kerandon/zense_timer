@@ -29,7 +29,7 @@ class CustomSwitchListTile extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minWidth: size.width * 0.50,
+        minWidth: size.width * 0.60,
         minHeight: size.height * 0.05,
         maxWidth: size.width,
         maxHeight: size.height * 0.15,
@@ -48,26 +48,25 @@ class CustomSwitchListTile extends StatelessWidget {
                       ),
                 )
               : null,
-
-          //   inactiveTrackColor: AppColors.disabledButton,
-          //   inactiveThumbColor: AppColors.onDisabledButton,
-          leading: ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: size.width * 0.05,
-              minHeight: size.height * 0.05,
-              maxWidth: size.width * 0.10,
-              maxHeight: size.height * 0.15,
-            ),
-            child: Icon(
-              icon,
-            ),
-          ),
+          leading: icon == null
+              ? null
+              : ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: size.width * 0.05,
+                    minHeight: size.height * 0.05,
+                    maxWidth: size.width * 0.20,
+                    maxHeight: size.height * 0.15,
+                  ),
+                  child: Icon(
+                    icon,
+                  ),
+                ),
           title: Text(title),
           trailing: ConstrainedBox(
             constraints: BoxConstraints(
               minWidth: size.width * 0.05,
               minHeight: size.height * 0.05,
-              maxWidth: size.width * 0.10,
+              maxWidth: size.width * 0.20,
               maxHeight: size.height * 0.15,
             ),
             child: Switch(

@@ -19,7 +19,7 @@ class _ResetDialogState extends State<ResetDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Reset all app settings & dashboard data?\n',
+        'Reset all saved settings & dashboard data?\n',
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               fontWeight: FontWeight.bold,
             ),

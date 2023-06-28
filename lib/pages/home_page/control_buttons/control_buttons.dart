@@ -27,7 +27,7 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
       children: [
         if (appState.currentPage == 0) ...[
           /// START BUTTON
-          const Align(alignment: Alignment(0, 0.70), child: StartButton()),
+          const Align(alignment: Alignment(0, 0.65), child: StartButton()),
         ],
 
         /// STOP BUTTON

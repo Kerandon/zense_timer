@@ -14,8 +14,8 @@ class CustomAboutDialog extends StatelessWidget {
       applicationIcon: AppIcon(),
       children: [
         Text(
-          '$kAppName is produced by Zenbition Ltd.\n\n© 2023 All Rights Reserved.',
-          textAlign: TextAlign.center,
+          '$kAppName is produced by Zenbition Ltd.\n\n© 2023 All Rights Reserved.\n\n Contact: zenbition@gmail.com',
+          textAlign: TextAlign.left,
         ),
       ],
     );

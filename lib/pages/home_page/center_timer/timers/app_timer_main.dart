@@ -162,12 +162,13 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
                   'SET TIME',
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: !appState.darkTheme &&
-                                appState.colorTheme == AppColorTheme.simple
-                            ? Colors.black
-                            : Colors.white,
+                        color: Theme.of(context).colorScheme.primary,
+                        // !appState.darkTheme &&
+                        //         appState.colorTheme == AppColorTheme.simple
+                        //     ? Colors.black
+                        //     : Colors.white,
                       ),
                 ),
               ),

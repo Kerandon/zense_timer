@@ -18,7 +18,7 @@ class CustomAppTheme {
     }
 
     return ThemeData(
-      fontFamily: GoogleFonts.lato().fontFamily,
+      fontFamily: GoogleFonts.quicksand().fontFamily,
       //(fontWeight: FontWeight.w300).fontFamily,
       colorScheme: ColorScheme(
         brightness: brightness,

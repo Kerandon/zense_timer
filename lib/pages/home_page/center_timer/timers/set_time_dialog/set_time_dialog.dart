@@ -27,21 +27,15 @@ class SetTimeDialog extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: size.width,
-                minHeight: 1,
-              ),
-              child: CustomSwitchListTile(
-                title: 'Open-ended session',
-                value: appState.openSession,
-                onChanged: (on) => appNotifier.setOpenSession(on),
-              ),
+            CustomSwitchListTile(
+              title: 'Open-ended session',
+              value: appState.openSession,
+              onChanged: (on) => appNotifier.setOpenSession(on),
             ),
             if (appState.openSession) ...[
               SizedBox(
                 height: size.height * 0.30,
-                width: size.width * 0.80,
+                width: size.width * 0.90,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -21,6 +21,8 @@ List<Panel> faqPanels = [
       'How can I adjust the ambience volume?',
       'Tap the music note icon on the ambient track you have selected.'
           '\n\nThen, a pop-up menu will appear where you can adjust the audio volume.'),
+  Panel('Why can\'t I see the timer clock when a session is in progress?',
+      'In Settings > Timer face make sure \'Show clock\' is turned on'),
   Panel(
       'How can I create a new preset?',
       'Tap the preset icon on the home screen (bottom center-right).'
@@ -30,14 +32,12 @@ List<Panel> faqPanels = [
       'Tap on the arrow icon on the preset pop-up you wish to delete, which will display the preset details. '
           '\n\nThen, tap on the three dots icon (top-right), which will give you the option to delete the preset.'),
   Panel(
-      'How can I delete a meditation record in my dashboard stats?',
+      'How can I delete a meditation record?',
       'Tap the dashboard icon on the home screen (bottom-right).'
           '\n\nThen tap the edit icon (top right) to view, and delete, your meditation records.\n\n'
           'Alternatively, you can reset all you saved data via \'Reset\' in Settings.'),
   Panel('How is my streak calculated?',
       'The number of consecutive days you have meditated for at least once a day for 1 minute or longer.'),
-  Panel('Why can\'t I see the timer clock when a session is in progress?',
-      'In Settings > Timer face make sure \'Show clock\' is turned on'),
   Panel('Is my personal/meditation data secure?',
       'Yes. This app does not save any data to a cloud database. All your data is 100% saved locally on your device only.\n\n')
 ];

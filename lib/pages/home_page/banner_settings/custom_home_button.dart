@@ -22,14 +22,19 @@ class CustomHomeButton extends StatelessWidget {
         onTap: onPressed,
         child: SizedBox(
           width: size.width / 4,
-          height: size.height * 0.8,
+          height: size.height * 0.9,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: size.height * 0.003),
-                child: Center(child: Icon(iconData)),
+                child: Center(
+                    child: Icon(
+                  iconData,
+                  size: 35,
+                  color: Theme.of(context).colorScheme.primary,
+                )),
               ),
               SizedBox(
                 width: size.width / 4,
@@ -40,7 +45,7 @@ class CustomHomeButton extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.labelSmall!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
-                              fontSize: 8,
+                              fontSize: 9,
                             ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
