@@ -111,7 +111,7 @@ class _AddPresetDialogState extends ConsumerState<AddPresetDialog> {
               text: 'Save',
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  final name = _textEditingController.value.text;
+                  final name = _textEditingController.value.text.trim();
 
                   DatabaseServiceAppData()
                       .insertIntoPresets(

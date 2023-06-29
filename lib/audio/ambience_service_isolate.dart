@@ -20,12 +20,12 @@ void playAmbience(dynamic args) {
   SendPort sendPort = args[5];
 
   if (ambience == kNone) {
-    ambience = 'blank';
+    ambience = 'blank_2';
   }
 
   /// Countdown player to play 'white noise' if a countdown is set so the OS will next kill the app if backgrounded.
   final countdownPlayer = AudioPlayer();
-  countdownPlayer.setAsset('assets/audio/ambience/blank.mp3').then((value) {
+  countdownPlayer.setAsset('assets/audio/ambience/blank_2.mp3').then((value) {
     countdownPlayer.setVolume(0.01);
     countdownPlayer.setLoopMode(LoopMode.all);
     countdownPlayer.play();

@@ -38,6 +38,7 @@ class _PresetsStripState extends ConsumerState<PresetsStrip> {
     final appState = ref.watch(appProvider);
     final appNotifier = ref.read(appProvider.notifier);
     final audioNotifier = ref.read(audioProvider.notifier);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!_presetsClearedOnInit) {
         appNotifier.setSelectedPreset("");
@@ -51,6 +52,8 @@ class _PresetsStripState extends ConsumerState<PresetsStrip> {
 
         if (snapshot.hasData) {
           presets = snapshot.data!.toList();
+
+          presets.sort((a, b) => a.name!.compareTo(b.name!));
 
           bool isSelected = false;
           return SizedBox(

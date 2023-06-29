@@ -44,8 +44,8 @@ class CustomSwitchListTile extends StatelessWidget {
         leading: icon == null
             ? null
             : Icon(
-              icon,
-            ),
+                icon,
+              ),
         title: Text(title),
         trailing: Switch(
           inactiveThumbColor: Theme.of(context).colorScheme.onInverseSurface,

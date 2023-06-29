@@ -191,9 +191,15 @@ class _TimerDesignPageState extends ConsumerState<TimerFacePage>
                           ),
                         ),
                         if (state.showClock) ...[
-                          Center(child: Icon(Icons.onetwothree_outlined, size: 35,))
+                          const Center(
+                              child: Icon(
+                            Icons.onetwothree_outlined,
+                            size: 35,
+                          ))
                         ],
-                        if (!state.showClock) ...[Center(child: AppIcon())],
+                        if (!state.showClock) ...[
+                          const Center(child: AppIcon())
+                        ],
                       ],
                     ),
                     labelAlignment: Alignment.center,

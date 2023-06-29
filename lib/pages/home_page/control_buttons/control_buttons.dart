@@ -51,12 +51,14 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
                     _cancelSession(appNotifier, context);
                   } else {
                     /// If time elapsed is greater than 1 minute - show completion page and save stats.
-                    if ((appState.elapsedTime - appState.countdownTime) >= 60000) {
+                    if ((appState.elapsedTime - appState.countdownTime) >=
+                        60000) {
                       /// Insert into stats
                       ///
                       await DatabaseServiceAppData().insertIntoStats(
                           dateTime: DateTime.now(),
-                          milliseconds: appState.elapsedTime - appState.countdownTime);
+                          milliseconds:
+                              appState.elapsedTime - appState.countdownTime);
 
                       if (mounted) {
                         await Navigator.of(context).pushAndRemoveUntil(

@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quiver/async.dart';
 import '../../../../app_components/animated_icons/animated_infinity_icon.dart';
 import '../../../../configs/constants.dart';
-import '../../../../enums/app_color_themes.dart';
 import '../../../../state/app_state.dart';
 import '../../../../state/database_service.dart';
 import '../../../completion_page/completion_page.dart';

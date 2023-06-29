@@ -18,8 +18,7 @@ class CustomAppTheme {
     }
 
     return ThemeData(
-      fontFamily: GoogleFonts.quicksand().fontFamily,
-      //(fontWeight: FontWeight.w300).fontFamily,
+      fontFamily: GoogleFonts.nunitoSans().fontFamily,
       colorScheme: ColorScheme(
         brightness: brightness,
         primary: isPlainTheme ? AppColors.defaultAppColor : primary,

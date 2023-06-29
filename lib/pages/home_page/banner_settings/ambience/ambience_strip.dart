@@ -15,13 +15,15 @@ class AmbienceStrip extends ConsumerStatefulWidget {
 
 class _AmbienceStripState extends ConsumerState<AmbienceStrip> {
   final Set<int> _hasAnimatedList = {};
+  bool _sortListOnStart = false;
+  List<Ambience> _items = [];
 
   void _addToHasAnimated(int index) {
     if (mounted) {
       _hasAnimatedList.add(index);
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        if (context.mounted) {
+        if (mounted) {
           setState(() {});
         }
       });
@@ -34,16 +36,29 @@ class _AmbienceStripState extends ConsumerState<AmbienceStrip> {
     final audioState = ref.watch(audioProvider);
     final audioNotifier = ref.read(audioProvider.notifier);
 
+    if (!_sortListOnStart) {
+      _sortListOnStart = true;
+      _items = Ambience.values.toList();
+      _items.sort((a, b) => a.name.compareTo(b.name));
+      final selected = _items
+          .firstWhere((element) => element.name == audioState.ambience.name);
+      _items.remove(selected);
+      _items.insert(0, selected);
+
+      final none = _items.firstWhere((element) => element.name == kNone);
+      _items.remove(none);
+      _items.insert(0, none);
+    }
     return SizedBox(
       width: size.width,
       height: size.height * kHomePageStripHeight,
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount: Ambience.values.length,
+          itemCount: _items.length,
           itemBuilder: (BuildContext context, int index) {
-            final ambience = Ambience.values.firstWhere((element) =>
-                element.name == Ambience.values.elementAt(index).name);
+            final ambience = _items.firstWhere(
+                (element) => element.name == _items.elementAt(index).name);
             bool isSelected = ambience.name == audioState.ambience.name;
             return CustomStripButton(
                 showMusicIcon: true,
