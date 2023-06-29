@@ -37,7 +37,7 @@ class CustomPopupBox extends StatelessWidget {
         ),
       )
           .animate()
-          .fadeIn(duration: 100.milliseconds, delay: 1.seconds)
+          .fadeIn(duration: 100.milliseconds, delay: 300.milliseconds)
           .fadeOut(duration: 100.milliseconds, delay: 10.seconds),
     );
   }
