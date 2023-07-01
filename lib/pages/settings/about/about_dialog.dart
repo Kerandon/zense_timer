@@ -10,7 +10,7 @@ class CustomAboutDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return const AboutDialog(
       applicationName: kAppName,
-      applicationVersion: '1.0.3',
+      applicationVersion: '1.0.0',
       applicationIcon: AppIcon(),
       children: [
         Text(

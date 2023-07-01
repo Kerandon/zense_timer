@@ -25,16 +25,14 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
 
     return Stack(
       children: [
-        if (appState.currentPage == 0) ...[
-          /// START BUTTON
-          const Align(alignment: Alignment(0, 0.65), child: StartButton()),
-        ],
+        /// START BUTTON
+        const Align(alignment: Alignment(0, 0.65), child: StartButton()),
 
         /// STOP BUTTON
         if (appState.sessionState != SessionState.ended) ...[
           Align(
             alignment: const Alignment(0.65, 0.90),
-            child: PopAnimation(
+            child: FadeAnimation(
               animate: appState.sessionState == SessionState.countdown ||
                   appState.sessionState == SessionState.inProgress,
               reset: appState.sessionState == SessionState.notStarted,
@@ -45,6 +43,8 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
                     : Colors.white,
                 icon: Icons.stop_outlined,
                 onPressed: () async {
+                  appNotifier.setAppWasStopped(true);
+
                   /// Go back to [appState.notStarted] if during COUNTDOWN
 
                   if (appState.sessionState == SessionState.countdown) {
@@ -80,7 +80,7 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
           /// PAUSE BUTTON
           Align(
             alignment: const Alignment(-0.65, 0.90),
-            child: PopAnimation(
+            child: FadeAnimation(
               animate: appState.sessionState == SessionState.countdown ||
                   appState.sessionState == SessionState.inProgress,
               reset: appState.sessionState == SessionState.notStarted,

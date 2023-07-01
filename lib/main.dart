@@ -86,9 +86,6 @@ class ZenseAppState extends ConsumerState<ZenseApp> {
                   const Duration(milliseconds: 150),
                   () {
                     FlutterNativeSplash.remove();
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      appNotifier.setAppHasLoaded(true);
-                    });
                   },
                 );
               }

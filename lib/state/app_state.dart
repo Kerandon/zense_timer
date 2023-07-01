@@ -1,23 +1,16 @@
 import 'package:zense_timer/enums/app_color_themes.dart';
 import 'package:zense_timer/enums/session_state.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../configs/constants.dart';
 import '../enums/clock_design.dart';
 import '../enums/prefs.dart';
 import '../models/prefs_model.dart';
-import 'package:sound_mode/utils/ringer_mode_statuses.dart';
 import 'database_service.dart';
 
 class AppState {
-  ///LIFECYCLE
-  final AppLifecycleState lifecycleState;
-
   ///APP STATE
-  final bool appHasLoaded;
-  final bool introAnimationHasRun;
   final SessionState sessionState;
-  final int currentPage;
+  final bool appWasStopped;
 
   ///TIME
   final int time;
@@ -30,7 +23,6 @@ class AppState {
   final String selectedPreset;
 
   ///MUTE
-  final RingerModeStatus originalRingerModeStatus;
   final bool muteDevice;
 
   ///THEME
@@ -49,18 +41,14 @@ class AppState {
   final bool keepAwake;
 
   AppState({
-    required this.lifecycleState,
-    required this.appHasLoaded,
-    required this.introAnimationHasRun,
     required this.sessionState,
-    required this.currentPage,
+    required this.appWasStopped,
     required this.time,
     required this.elapsedTime,
     required this.countdownTime,
     required this.openSession,
     required this.showPresets,
     required this.selectedPreset,
-    required this.originalRingerModeStatus,
     required this.muteDevice,
     required this.colorTheme,
     required this.followOSTheme,
@@ -74,19 +62,14 @@ class AppState {
   });
 
   AppState copyWith({
-    AppLifecycleState? lifecycleState,
-    bool? appHasLoaded,
-    bool? introAnimationHasRun,
     SessionState? sessionState,
     int? time,
-    int? currentPage,
+    bool? appWasStopped,
     int? elapsedTime,
     int? countdownTime,
-    int? currentCountdownTime,
     bool? openSession,
     bool? showPresets,
     String? selectedPreset,
-    RingerModeStatus? originalRingerModeStatus,
     bool? muteDevice,
     AppColorTheme? colorTheme,
     bool? followOSTheme,
@@ -99,12 +82,9 @@ class AppState {
     bool? keepAwake,
   }) {
     return AppState(
-      lifecycleState: lifecycleState ?? this.lifecycleState,
-      appHasLoaded: appHasLoaded ?? this.appHasLoaded,
-      introAnimationHasRun: introAnimationHasRun ?? this.introAnimationHasRun,
-      sessionState: sessionState ?? this.sessionState,
-      currentPage: currentPage ?? this.currentPage,
       time: time ?? this.time,
+      sessionState: sessionState ?? this.sessionState,
+      appWasStopped: appWasStopped ?? this.appWasStopped,
       elapsedTime: elapsedTime ?? this.elapsedTime,
       countdownTime: countdownTime ?? this.countdownTime,
       openSession: openSession ?? this.openSession,
@@ -117,8 +97,6 @@ class AppState {
       showClock: showClock ?? this.showClock,
       timerDesign: timerDesign ?? this.timerDesign,
       reverseTimer: reverseTimer ?? this.reverseTimer,
-      originalRingerModeStatus:
-          originalRingerModeStatus ?? this.originalRingerModeStatus,
       muteDevice: muteDevice ?? this.muteDevice,
       vibrate: vibrate ?? this.vibrate,
       keepAwake: keepAwake ?? this.keepAwake,
@@ -128,18 +106,6 @@ class AppState {
 
 class AppNotifier extends StateNotifier<AppState> {
   AppNotifier(state) : super(state);
-
-  void setLifecycleState(AppLifecycleState lifecycleState) {
-    state = state.copyWith(lifecycleState: lifecycleState);
-  }
-
-  void setAppHasLoaded(bool loaded) {
-    state = state.copyWith(appHasLoaded: loaded);
-  }
-
-  void setIntroAnimationHasRun() {
-    state = state.copyWith(introAnimationHasRun: true);
-  }
 
   void setTime(
       {required int minutes,
@@ -175,10 +141,6 @@ class AppNotifier extends StateNotifier<AppState> {
     );
   }
 
-  void setPage(int index) {
-    state = state.copyWith(currentPage: index);
-  }
-
   void setElapsedTime(int time) {
     state = state.copyWith(elapsedTime: time);
   }
@@ -197,6 +159,10 @@ class AppNotifier extends StateNotifier<AppState> {
       await DatabaseServiceAppData()
           .insertIntoPrefs(k: Prefs.openSession.name, v: open);
     }
+  }
+
+  void setAppWasStopped(bool stopped) {
+    state = state.copyWith(appWasStopped: stopped);
   }
 
   ///PRESETS
@@ -285,10 +251,6 @@ class AppNotifier extends StateNotifier<AppState> {
     }
   }
 
-  // void setOriginalRingerModeStatus(RingerModeStatus status) {
-  //   state = state.copyWith(originalRingerModeStatus: status);
-  // }
-
   void setMuteDevice(bool mute, {bool insertInDatabase = true}) async {
     state = state.copyWith(muteDevice: mute);
     if (insertInDatabase) {
@@ -334,16 +296,13 @@ class AppNotifier extends StateNotifier<AppState> {
 
 final appProvider = StateNotifierProvider<AppNotifier, AppState>((ref) {
   return AppNotifier(AppState(
-    lifecycleState: AppLifecycleState.resumed,
-    appHasLoaded: false,
-    introAnimationHasRun: false,
     sessionState: SessionState.notStarted,
     colorTheme: AppColorTheme.simple,
-    currentPage: 0,
     time: 600000,
     elapsedTime: 0,
     countdownTime: 5000,
     openSession: false,
+    appWasStopped: false,
     showPresets: false,
     selectedPreset: kPresets,
     followOSTheme: false,
@@ -353,7 +312,6 @@ final appProvider = StateNotifierProvider<AppNotifier, AppState>((ref) {
     timerDesign: TimerDesign.circle,
     reverseTimer: true,
     vibrate: true,
-    originalRingerModeStatus: RingerModeStatus.unknown,
     muteDevice: true,
     keepAwake: true,
   ));

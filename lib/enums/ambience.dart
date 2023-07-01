@@ -7,7 +7,6 @@ enum Ambience {
   fireplace,
   forest,
   rain,
-  musicAutumnSky,
   musicElevation,
   musicHarmony,
   musicHealing,
@@ -32,8 +31,6 @@ extension AmbienceText on Ambience {
         return 'Seaside';
       case Ambience.fireplace:
         return 'Fireplace';
-      case Ambience.musicAutumnSky:
-        return 'Autumn Sky';
       case Ambience.musicReflection:
         return 'Reflection';
       case Ambience.musicSunrise:
@@ -69,8 +66,6 @@ extension AmbienceIcon on Ambience {
         return FontAwesomeIcons.fireBurner;
       case Ambience.seaside:
         return FontAwesomeIcons.umbrellaBeach;
-      case Ambience.musicAutumnSky:
-        return Icons.piano_outlined;
       case Ambience.musicReflection:
         return Icons.piano_outlined;
       case Ambience.musicSunrise:

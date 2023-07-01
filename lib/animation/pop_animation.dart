@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../configs/constants.dart';
 
-class PopAnimation extends StatefulWidget {
-  const PopAnimation({
+class FadeAnimation extends StatefulWidget {
+  const FadeAnimation({
     Key? key,
     required this.animate,
     this.child,
@@ -18,10 +18,10 @@ class PopAnimation extends StatefulWidget {
   final VoidCallback? onComplete;
 
   @override
-  State<PopAnimation> createState() => _PopAnimationState();
+  State<FadeAnimation> createState() => _FadeAnimationState();
 }
 
-class _PopAnimationState extends State<PopAnimation>
+class _FadeAnimationState extends State<FadeAnimation>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _fade;
@@ -55,7 +55,7 @@ class _PopAnimationState extends State<PopAnimation>
   }
 
   @override
-  void didUpdateWidget(covariant PopAnimation oldWidget) {
+  void didUpdateWidget(covariant FadeAnimation oldWidget) {
     if (widget.animate && !_controller.isAnimating) {
       if (mounted) {
         _controller.forward();

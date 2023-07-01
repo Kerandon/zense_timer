@@ -89,12 +89,11 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
   Widget build(BuildContext context) {
     final appState = ref.watch(appProvider);
     final audioState = ref.watch(audioProvider);
+    final appNotifier = ref.read(appProvider.notifier);
     final audioNotifier = ref.read(audioProvider.notifier);
 
     /// Reset when [notStarted] state
-    if (appState.sessionState == SessionState.notStarted ||
-        appState.sessionState == SessionState.ended) {
-      _ambienceHasStarted = false;
+    if (appState.sessionState == SessionState.notStarted) {
       _stop();
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         audioNotifier.setAmbiencePosition(0);
@@ -116,7 +115,13 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
 
     if (appState.sessionState == SessionState.paused) {
       _stop();
-      _ambienceHasStarted = false;
+    }
+
+    if (appState.appWasStopped) {
+      _stop();
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        appNotifier.setAppWasStopped(false);
+      });
     }
 
     return const SizedBox();
@@ -164,6 +169,7 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
   }
 
   void _stop() {
+    _ambienceHasStarted = false;
     FlutterIsolate.killAll();
   }
 }

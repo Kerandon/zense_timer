@@ -21,9 +21,8 @@ class StartButton extends ConsumerWidget {
     final audioNotifier = ref.read(audioProvider.notifier);
     final size = MediaQuery.of(context).size;
 
-    return PopAnimation(
-      animate: appState.appHasLoaded &&
-          appState.sessionState == SessionState.notStarted,
+    return FadeAnimation(
+      animate: appState.sessionState == SessionState.notStarted,
       reset: appState.sessionState == SessionState.countdown ||
           appState.sessionState == SessionState.inProgress ||
           appState.sessionState == SessionState.paused,
