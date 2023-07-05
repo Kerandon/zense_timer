@@ -154,8 +154,6 @@ class _AddPresetDialogState extends ConsumerState<AddPresetDialog> {
       reverseTimer: appState.reverseTimer,
       showClock: appState.showClock,
       vibrate: appState.vibrate,
-      muteDevice: appState.muteDevice,
-      keepAwake: appState.keepAwake,
     );
   }
 }

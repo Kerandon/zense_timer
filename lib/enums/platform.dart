@@ -1,1 +1,0 @@
-enum AppPlatform { iOs, android }

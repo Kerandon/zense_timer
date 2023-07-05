@@ -22,9 +22,6 @@ class AppState {
   final bool showPresets;
   final String selectedPreset;
 
-  ///MUTE
-  final bool muteDevice;
-
   ///THEME
   final AppColorTheme colorTheme;
   final bool followOSTheme;
@@ -37,9 +34,6 @@ class AppState {
   ///VIBRATE
   final bool vibrate;
 
-  ///WAKELOCK
-  final bool keepAwake;
-
   AppState({
     required this.sessionState,
     required this.appWasStopped,
@@ -49,7 +43,6 @@ class AppState {
     required this.openSession,
     required this.showPresets,
     required this.selectedPreset,
-    required this.muteDevice,
     required this.colorTheme,
     required this.followOSTheme,
     required this.darkTheme,
@@ -58,7 +51,6 @@ class AppState {
     required this.timerDesign,
     required this.reverseTimer,
     required this.vibrate,
-    required this.keepAwake,
   });
 
   AppState copyWith({
@@ -70,7 +62,6 @@ class AppState {
     bool? openSession,
     bool? showPresets,
     String? selectedPreset,
-    bool? muteDevice,
     AppColorTheme? colorTheme,
     bool? followOSTheme,
     bool? darkTheme,
@@ -79,7 +70,6 @@ class AppState {
     TimerDesign? timerDesign,
     bool? reverseTimer,
     bool? vibrate,
-    bool? keepAwake,
   }) {
     return AppState(
       time: time ?? this.time,
@@ -97,9 +87,7 @@ class AppState {
       showClock: showClock ?? this.showClock,
       timerDesign: timerDesign ?? this.timerDesign,
       reverseTimer: reverseTimer ?? this.reverseTimer,
-      muteDevice: muteDevice ?? this.muteDevice,
       vibrate: vibrate ?? this.vibrate,
-      keepAwake: keepAwake ?? this.keepAwake,
     );
   }
 }
@@ -202,14 +190,6 @@ class AppNotifier extends StateNotifier<AppState> {
     }
   }
 
-  void setDeviceIsMuted(bool muted, {bool insertInDatabase = true}) async {
-    state = state.copyWith(muteDevice: muted);
-    if (insertInDatabase) {
-      await DatabaseServiceAppData()
-          .insertIntoPrefs(k: Prefs.muteDevice.name, v: muted);
-    }
-  }
-
   void showTimerDesign(bool show, {bool insertInDatabase = true}) async {
     state = state.copyWith(showTimer: show);
     if (insertInDatabase) {
@@ -251,22 +231,6 @@ class AppNotifier extends StateNotifier<AppState> {
     }
   }
 
-  void setMuteDevice(bool mute, {bool insertInDatabase = true}) async {
-    state = state.copyWith(muteDevice: mute);
-    if (insertInDatabase) {
-      await DatabaseServiceAppData()
-          .insertIntoPrefs(k: Prefs.muteDevice.name, v: mute);
-    }
-  }
-
-  void setKeepAwake(bool awake, {bool insertInDatabase = true}) async {
-    state = state.copyWith(keepAwake: awake);
-    if (insertInDatabase) {
-      await DatabaseServiceAppData()
-          .insertIntoPrefs(k: Prefs.keepAwake.name, v: awake);
-    }
-  }
-
   void setAllPrefs(
       {required PrefsModel prefsModel, bool mainOnly = false}) async {
     /// These settings only need to be loaded once on first init
@@ -286,9 +250,7 @@ class AppNotifier extends StateNotifier<AppState> {
         timerDesign: prefsModel.timerDesign,
         reverseTimer: prefsModel.reverseTimer,
         showClock: prefsModel.showClock,
-        muteDevice: prefsModel.muteDevice,
         vibrate: prefsModel.vibrate,
-        keepAwake: prefsModel.keepAwake,
       );
     }
   }
@@ -312,7 +274,5 @@ final appProvider = StateNotifierProvider<AppNotifier, AppState>((ref) {
     timerDesign: TimerDesign.circle,
     reverseTimer: true,
     vibrate: true,
-    muteDevice: true,
-    keepAwake: true,
   ));
 });

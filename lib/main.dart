@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:upgrader/upgrader.dart';
 import 'package:zense_timer/enums/app_color_themes.dart';
-import 'package:zense_timer/enums/platform.dart';
 import 'package:zense_timer/pages/home_page/home.dart';
 import 'package:zense_timer/state/audio_state.dart';
 import 'package:zense_timer/models/prefs_model.dart';
@@ -11,23 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/foundation.dart';
+import 'package:zense_timer/utils/methods/wake_lock.dart';
 import 'configs/constants.dart';
 import 'configs/themes/app_colors.dart';
 import 'configs/themes/custom_app_theme.dart';
 import 'package:flutter/services.dart';
-import 'dart:io' show Platform;
-import 'dart:io';
-
-late final AppPlatform platform;
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isAndroid) {
-    platform = AppPlatform.android;
-  } else if (Platform.isIOS) {
-    platform = AppPlatform.iOs;
-  }
-
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -51,6 +41,7 @@ class ZenseAppState extends ConsumerState<ZenseApp> {
 
   @override
   void initState() {
+    setWakeLock();
     _prefFuture = DatabaseServiceAppData().getPrefs();
     super.initState();
   }
@@ -113,14 +104,6 @@ class ZenseAppState extends ConsumerState<ZenseApp> {
             brightness:
                 appState.darkTheme ? Brightness.dark : Brightness.light);
 
-        /// Gets the user's preferred [RingerModeStatus] so when the app is not in progress, will
-        /// revert to this status, or when the app exits.
-        // getRingerModeStatus().then((status) async {
-        //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        //     appNotifier.setOriginalRingerModeStatus(status);
-        //   });
-        // });
-
         return MaterialApp(
           title: kAppName,
           debugShowCheckedModeBanner: false,
@@ -128,8 +111,6 @@ class ZenseAppState extends ConsumerState<ZenseApp> {
           home: Stack(
             children: [
               UpgradeAlert(),
-              // const LifecycleState(),
-              // const OnFirstInit(),
               const HomePage(),
             ],
           ),

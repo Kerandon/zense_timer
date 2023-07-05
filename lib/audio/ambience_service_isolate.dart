@@ -11,7 +11,7 @@ import '../state/app_state.dart';
 import '../state/audio_state.dart';
 
 @pragma('vm:entry-point')
-void playAmbience(dynamic args) {
+Future<void> playAmbience(dynamic args)async {
   String ambience = args[0];
   double volume = args[1];
   int position = args[2];
@@ -20,14 +20,14 @@ void playAmbience(dynamic args) {
   SendPort sendPort = args[5];
 
   if (ambience == kNone) {
-    ambience = 'blank_2';
+    ambience = 'blank';
   }
 
   /// Countdown player to play 'white noise' if a countdown is set so the OS will next kill the app if backgrounded.
   final countdownPlayer = AudioPlayer();
-  countdownPlayer.setAsset('assets/audio/ambience/blank_2.mp3').then((value) {
-    countdownPlayer.setVolume(0.01);
-    countdownPlayer.setLoopMode(LoopMode.all);
+  countdownPlayer.setAsset('assets/audio/ambience/blank.mp3').then((value) async {
+    await countdownPlayer.setVolume(0.01);
+    await countdownPlayer.setLoopMode(LoopMode.all);
     countdownPlayer.play();
   });
 
@@ -36,20 +36,20 @@ void playAmbience(dynamic args) {
   });
 
   final ambiencePlayer = AudioPlayer();
-  ambiencePlayer.setAsset('assets/audio/ambience/$ambience.mp3');
-  ambiencePlayer.setVolume(0);
-  ambiencePlayer.setLoopMode(LoopMode.all);
-  ambiencePlayer.seek(Duration(milliseconds: position));
+  await ambiencePlayer.setAsset('assets/audio/ambience/$ambience.mp3');
+  await ambiencePlayer.setVolume(0);
+  await ambiencePlayer.setLoopMode(LoopMode.all);
+  await ambiencePlayer.seek(Duration(milliseconds: position));
 
-  Timer(Duration(milliseconds: countdown), () {
+  Timer(Duration(milliseconds: countdown), () async {
     CountdownTimer(const Duration(milliseconds: kAmbienceFadeTime),
             const Duration(milliseconds: 1))
-        .listen((event) {
+        .listen((event) async {
       final percent = 1 - (event.remaining.inMilliseconds / kAmbienceFadeTime);
       if (ambience == kNone) {
-        ambiencePlayer.setVolume(0.01);
+       await ambiencePlayer.setVolume(0.01);
       } else {
-        ambiencePlayer.setVolume(percent * volume);
+        await ambiencePlayer.setVolume(percent * volume);
       }
     });
 
@@ -60,14 +60,14 @@ void playAmbience(dynamic args) {
   });
 
   /// Fade out and end ambience
-  final timeToEnd = sessionTimeRemaining - kAmbienceFadeTime;
+  int timeToEnd = sessionTimeRemaining - kAmbienceFadeTime;
 
-  Timer(Duration(milliseconds: timeToEnd), () {
+  Timer(Duration(milliseconds: (timeToEnd + 3000)), () async {
     CountdownTimer(const Duration(milliseconds: kAmbienceFadeTime),
             const Duration(milliseconds: 1))
-        .listen((event) {
+        .listen((event) async {
       final percent = (event.remaining.inMilliseconds / kAmbienceFadeTime);
-      ambiencePlayer.setVolume(percent * volume);
+      await ambiencePlayer.setVolume(percent * volume);
     }).onDone(() {
       ambiencePlayer.stop();
     });

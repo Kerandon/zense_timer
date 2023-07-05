@@ -11,7 +11,8 @@ enum Bell {
   bellSoft,
   chimeSingle,
   chimesMultiple,
-  gong
+  gong,
+  random
 }
 
 extension ToText on Bell {
@@ -43,6 +44,8 @@ extension ToText on Bell {
         return 'Multiple meditation chimes';
       case Bell.gong:
         return 'Meditation gong';
+      case Bell.random:
+        return 'Random bell';
     }
   }
 }

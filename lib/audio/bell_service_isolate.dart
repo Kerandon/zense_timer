@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:vibration/vibration.dart';
 import 'package:zense_timer/configs/constants.dart';
+import 'package:zense_timer/enums/bell.dart';
 import 'package:zense_timer/enums/interval_bell_type.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,10 +11,11 @@ import 'package:just_audio/just_audio.dart';
 import '../enums/session_state.dart';
 import '../state/app_state.dart';
 import '../state/audio_state.dart';
+import '../utils/methods/bell_methods.dart';
 
 /// PLAY FIXED BELLS
 @pragma('vm:entry-point')
-void playFixedBellsIsolate(dynamic args) {
+Future<void> playFixedBellsIsolate(dynamic args) async {
   int timeToStart = args[0];
   bool bellOnStart = args[1];
   String startSound = args[2];
@@ -21,29 +23,49 @@ void playFixedBellsIsolate(dynamic args) {
   int intervalTime = args[4];
   double volume = args[5];
   int timeToEnd = args[6];
+  List<String> randomBells = args[7];
 
   final bellPlayer1 = AudioPlayer();
   final bellPlayer2 = AudioPlayer();
-  bellPlayer1.setAsset('assets/audio/bells/$startSound.mp3').then((value) {
-    bellPlayer1.setVolume(volume);
-  });
-  bellPlayer2.setAsset('assets/audio/bells/$intervalSound.mp3').then((value) {
-    bellPlayer2.setVolume(volume);
-  });
+
+  if (startSound == Bell.random.name) {
+    startSound = getRandomBell(randomBells);
+  }
+
+  if (bellOnStart) {
+    await bellPlayer1.setAsset('assets/audio/bells/$startSound.mp3');
+  }
+
+  if (intervalSound == Bell.random.name) {
+    intervalSound = getRandomBell(randomBells);
+  }
+
+  if (intervalSound != Bell.none.name) {
+    await bellPlayer2.setAsset('assets/audio/bells/$intervalSound.mp3');
+  }
+
+  await bellPlayer1.setVolume(volume);
+  await bellPlayer2.setVolume(volume);
 
   Timer? periodicTimer;
 
-  Timer(Duration(milliseconds: timeToStart), () {
+  Timer(Duration(milliseconds: timeToStart), () async {
     if (bellOnStart) {
       bellPlayer1.play();
     }
-    periodicTimer =
-        Timer.periodic(Duration(milliseconds: intervalTime), (timer) {
-      bellPlayer2.seek(Duration.zero);
-      if (timeToEnd > kEndBellCutOff) {
-        bellPlayer2.play();
-      }
-    });
+    if (intervalSound != Bell.none.name) {
+      periodicTimer =
+          Timer.periodic(Duration(milliseconds: intervalTime), (timer) async {
+        bellPlayer2.seek(Duration.zero);
+        if (timeToEnd > kEndBellCutOff) {
+          if (intervalSound == Bell.random.name) {
+            intervalSound = getRandomBell(randomBells);
+            await bellPlayer1.setAsset('assets/audio/bells/$intervalSound.mp3');
+          }
+          bellPlayer2.play();
+        }
+      });
+    }
   });
 
   Timer(Duration(milliseconds: timeToEnd - kEndBellCutOff), () {
@@ -53,7 +75,7 @@ void playFixedBellsIsolate(dynamic args) {
 
 /// PLAY RANDOM BELLS
 @pragma('vm:entry-point')
-void playRandomBells(dynamic args) {
+Future<void> playRandomBells(dynamic args) async {
   int timeToStart = args[0];
   bool bellOnStart = args[1];
   String startSound = args[2];
@@ -62,18 +84,32 @@ void playRandomBells(dynamic args) {
   int maxRandom = args[5];
   int timeToEnd = args[6];
   double volume = args[7];
+  List<String> randomBells = args[8];
+
   final bellPlayer1 = AudioPlayer();
   final bellPlayer2 = AudioPlayer();
   if (timeToEnd == 60000) {
     maxRandom = (60000 - kEndBellCutOff);
   }
 
-  bellPlayer1.setAsset('assets/audio/bells/$startSound.mp3').then((value) {
-    bellPlayer1.setVolume(volume);
-  });
-  bellPlayer2.setAsset('assets/audio/bells/$intervalSound.mp3').then((value) {
-    bellPlayer2.setVolume(volume);
-  });
+  if (startSound == Bell.random.name) {
+    startSound = getRandomBell(randomBells);
+  }
+
+  if (bellOnStart) {
+    await bellPlayer1.setAsset('assets/audio/bells/$startSound.mp3');
+  }
+
+  if (intervalSound == Bell.random.name) {
+    intervalSound = getRandomBell(randomBells);
+  }
+
+  if (intervalSound != Bell.none.name) {
+    bellPlayer2.setAsset('assets/audio/bells/$intervalSound.mp3');
+  }
+
+  await bellPlayer1.setVolume(volume);
+  await bellPlayer2.setVolume(volume);
 
   if (bellOnStart) {
     Timer(Duration(milliseconds: timeToStart), () {
@@ -84,41 +120,52 @@ void playRandomBells(dynamic args) {
 
   Timer? bellTimer;
 
-  void calculateRandomTime(int minRandomTime, int maxRandomTime) {
-    Random random = Random();
-    Duration duration = Duration(
-        milliseconds:
-            random.nextInt(maxRandomTime - minRandomTime) + minRandomTime);
+  if (intervalSound != Bell.none.name) {
+    void calculateRandomTime(int minRandomTime, int maxRandomTime) {
+      Random random = Random();
+      Duration duration = Duration(
+          milliseconds:
+              random.nextInt(maxRandomTime - minRandomTime) + minRandomTime);
 
-    bellTimer = Timer(duration, () {
-      bellPlayer2.seek(Duration.zero);
-      bellPlayer2.play();
-      calculateRandomTime(minRandom, maxRandomTime);
+      bellTimer = Timer(duration, () {
+        bellPlayer2.seek(Duration.zero);
+        if (intervalSound == Bell.random.name) {
+          intervalSound = getRandomBell(randomBells);
+        }
+        bellPlayer2.play();
+        calculateRandomTime(minRandom, maxRandomTime);
+      });
+    }
+
+    Timer(Duration(milliseconds: timeToEnd - kEndBellCutOff), () {
+      bellTimer?.cancel();
     });
+    calculateRandomTime(minRandom, maxRandom);
   }
-
-  Timer(Duration(milliseconds: timeToEnd - kEndBellCutOff), () {
-    bellTimer?.cancel();
-  });
-
-  calculateRandomTime(minRandom, maxRandom);
 }
 
 /// END BELL ISOLATE
 @pragma('vm:entry-point')
-void playEndBell(dynamic args) {
+Future<void> playEndBell(dynamic args) async {
   String endSound = args[0];
   int time = args[1];
   bool vibrate = args[2];
   double volume = args[3];
+  List<String> randomBells = args[4];
+
   final bellPlayer1 = AudioPlayer();
   final bellPlayer2 = AudioPlayer();
-  bellPlayer1.setAsset('assets/audio/bells/$endSound.mp3').then((value) {
-    bellPlayer1.setVolume(volume);
-  });
-  bellPlayer2.setAsset('assets/audio/bells/$endSound.mp3').then((value) {
-    bellPlayer2.setVolume(volume);
-  });
+
+  if (endSound == Bell.random.name) {
+    endSound = getRandomBell(randomBells);
+  }
+
+  await bellPlayer1.setAsset('assets/audio/bells/$endSound.mp3');
+  await bellPlayer2.setAsset('assets/audio/bells/$endSound.mp3');
+
+  await bellPlayer1.setVolume(volume);
+
+  await bellPlayer2.setVolume(volume);
 
   ///End bell - plays 2 bells & also vibrates is [true]
   Timer(Duration(milliseconds: time), () {
@@ -206,6 +253,8 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
         ? appState.countdownTime + time
         : time - (appState.elapsedTime + appState.countdownTime);
 
+    /// Select all bells to select randomly from.
+
     final fixedVariables = [
       timeToStart,
 
@@ -230,6 +279,9 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
 
       ///Time to end
       timeToEnd,
+
+      ///All bells that can play randomly
+      getAllBellsToList()
     ];
 
     if (timeToEnd > kEndBellCutOff) {
@@ -267,25 +319,31 @@ class _BellService2State extends ConsumerState<BellServiceIsolate> {
 
         /// Bell volume
         audioState.bellVolume,
+
+        /// All Bells that can play randomly
+        getAllBellsToList()
       ]);
     }
   }
 
   void _setEndBell(
       {required AppState appState, required AudioState audioState}) {
-    int time = appState.time;
-    if (appState.openSession) {
-      time = kOpenSessionMaxTime;
-    }
+    if (audioState.bellOnEndSound.name != Bell.none.name) {
+      int time = appState.time;
+      if (appState.openSession) {
+        time = kOpenSessionMaxTime;
+      }
 
-    FlutterIsolate.spawn(playEndBell, [
-      audioState.bellOnEndSound.name,
-      appState.elapsedTime == 0
-          ? appState.countdownTime + time
-          : time - appState.elapsedTime + appState.countdownTime,
-      appState.vibrate,
-      audioState.bellVolume,
-    ]);
+      FlutterIsolate.spawn(playEndBell, [
+        audioState.bellOnEndSound.name,
+        appState.elapsedTime == 0
+            ? appState.countdownTime + time
+            : time - appState.elapsedTime + appState.countdownTime,
+        appState.vibrate,
+        audioState.bellVolume,
+        getAllBellsToList(),
+      ]);
+    }
   }
 
   void _reset() {

@@ -45,7 +45,7 @@ class CustomHomeButton extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.labelSmall!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
-                              fontSize: 9,
+                              fontSize: 10,
                             ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

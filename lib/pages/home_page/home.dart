@@ -1,7 +1,6 @@
 import 'package:zense_timer/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakelock/wakelock.dart';
 import '../../audio/ambience_service_isolate.dart';
 import '../../audio/bell_service_isolate.dart';
 import '../../configs/constants.dart';
@@ -32,7 +31,6 @@ class _HomePageContentsState extends ConsumerState<HomePage> {
     final appState = ref.watch(appProvider);
     final audioState = ref.watch(audioProvider);
     const yStripAlign = -0.96;
-    _setWakelock(appState);
 
     return Stack(
       children: [
@@ -101,19 +99,5 @@ class _HomePageContentsState extends ConsumerState<HomePage> {
         ),
       ],
     );
-  }
-
-  void _setWakelock(AppState appState) {
-    if (appState.sessionState == SessionState.countdown ||
-        appState.sessionState == SessionState.inProgress ||
-        appState.sessionState == SessionState.ended) {
-      if (appState.keepAwake) {
-        Wakelock.enable();
-      } else {
-        Wakelock.disable();
-      }
-    } else {
-      Wakelock.disable();
-    }
   }
 }

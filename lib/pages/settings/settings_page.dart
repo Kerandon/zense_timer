@@ -14,7 +14,6 @@ import 'guide_page/guide_page.dart';
 import 'components/settings_divider.dart';
 import '../../app_components/custom_settings_tile.dart';
 import 'countdown/countdown_page.dart';
-import 'keep_awake/keep_awake.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -48,8 +47,6 @@ class SettingsPage extends ConsumerWidget {
             },
           ),
           const VibratePage(),
-          // if (platform == AppPlatform.android) ...[const DNDPage()],
-          const KeepAwakePage(),
           const SettingsTitleDivider(
             title: 'APP THEME',
           ),
@@ -123,9 +120,10 @@ class SettingsPage extends ConsumerWidget {
             ),
             child: Center(
               child: Text('© 2023 Zenbition Limited 9429048108997',
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      fontSize: 9,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(fontSize: 9)),
             ),
           ),
         ],

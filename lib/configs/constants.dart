@@ -9,7 +9,6 @@ const kEndPagePadding = 0.05;
 const kButtonMinWidth = 0.26;
 
 const kSettingsHorizontalPageIndent = 0.09;
-const kCustomButtonLeftTextPadding = 0.03;
 
 /// SHARED-PREFS
 
@@ -18,7 +17,6 @@ const kDNDShownOnInit = 'dnd_init';
 const kPresetsOnInitPrefs = 'dnd_init';
 
 /// ANIMATION
-const kStartAnimationOpacity = 0.50;
 const kShimmerDelay = 8;
 const kStripAnimationDuration = 150;
 const kFadeInTimeFast = 400;
@@ -35,7 +33,6 @@ const kPageIndentation = 0.03;
 /// CHARTS
 const kChartBarLineWidth = 5.0;
 const kChartLabelsFontSize = 9.0;
-const kNoOfXLabelsOnLineChart = 5;
 
 const kDashboardIconSize = 30.0;
 
@@ -71,17 +68,9 @@ const kSessionWillBeginShortly = 'Your session will begin shortly';
 const kSetFixedTimeGreaterThanZero = 'Set fixed time to greater than zero';
 const kOpenSessionText = 'Meditate for as long as you feel';
 const kPresets = 'Presets';
-const kOnAStreak = 'You are on a streak!';
-const kOnABestStreak = 'You are on an all time streak!';
+
 const kMuteWhenMeditating = 'Mute device when meditating';
 const kKeepAwake = 'Keep screen awake';
-const kAllowPermissionTitle1 = 'Block out the distractions';
-const kAllowPermissionTitle2 =
-    '\nPlease turn on \'Do Not Disturb\' (DND) access for $kAppName in settings.';
-const kAllowPermissionSubtitle =
-    '$kAppName will turn DND mode on to silence calls & notifications while you meditate. '
-    'Your original setting will be automatically restored when your session has concluded.';
-const kNotificationTitle = 'Congratulations - meditation session complete';
 
 const kStreakEncouragementMsg1 = 'You’ve made a good start, keep going!';
 const kStreakEncouragementMsg2 =

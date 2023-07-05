@@ -31,8 +31,6 @@ class PrefsModel extends Equatable {
   final bool reverseTimer;
   final bool showClock;
   final bool vibrate;
-  final bool muteDevice;
-  final bool keepAwake;
 
   const PrefsModel({
     this.name,
@@ -56,8 +54,6 @@ class PrefsModel extends Equatable {
     required this.reverseTimer,
     required this.showClock,
     required this.vibrate,
-    required this.muteDevice,
-    required this.keepAwake,
   });
 
   /// Get last app settings when init. E.g. when the app loads it reverts to it's most recent state.
@@ -85,8 +81,6 @@ class PrefsModel extends Equatable {
     bool reverseTimer = true;
     bool showClock = true;
     bool vibrate = true;
-    bool muteDevice = false;
-    bool keepAwake = true;
 
     for (int i = 0; i < mapList.length; i++) {
       String prefKey = mapList[i].entries.elementAt(0).value;
@@ -190,14 +184,6 @@ class PrefsModel extends Equatable {
       prefKey == Prefs.vibrate.name
           ? vibrate = mapList[i].entries.elementAt(1).value == 1
           : null;
-
-      prefKey == Prefs.muteDevice.name
-          ? muteDevice = mapList[i].entries.elementAt(1).value == 1
-          : null;
-
-      prefKey == Prefs.keepAwake.name
-          ? keepAwake = mapList[i].entries.elementAt(1).value == 1
-          : null;
     }
 
     return PrefsModel(
@@ -221,8 +207,6 @@ class PrefsModel extends Equatable {
       reverseTimer: reverseTimer,
       showClock: showClock,
       vibrate: vibrate,
-      muteDevice: muteDevice,
-      keepAwake: keepAwake,
     );
   }
 
@@ -321,8 +305,6 @@ class PrefsModel extends Equatable {
       reverseTimer: data[Prefs.reverseTimer.name] ?? true,
       showClock: data[Prefs.showClock.name] ?? true,
       vibrate: data[Prefs.vibrate.name] ?? true,
-      muteDevice: data[Prefs.muteDevice.name] ?? false,
-      keepAwake: data[Prefs.keepAwake.name] ?? true,
     );
   }
 
