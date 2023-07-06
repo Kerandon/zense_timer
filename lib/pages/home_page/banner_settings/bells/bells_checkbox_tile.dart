@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:zense_timer/configs/constants.dart';
-import 'package:zense_timer/utils/methods/bell_methods.dart';
+import 'package:zense_timer/utils/methods/audio_methods.dart';
 import '../../../../enums/bell.dart';
 import '../../../../enums/bell_stage.dart';
 import '../../../../state/audio_state.dart';
@@ -58,7 +58,7 @@ class BellsCheckBoxTile extends ConsumerWidget {
 
               String b = bell.name;
               if (b == Bell.random.name) {
-                b = getRandomBell(getAllBellsToList());
+                b = getRandomAudio(getAllBellsToList());
               }
 
               await player

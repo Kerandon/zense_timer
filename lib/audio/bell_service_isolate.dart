@@ -11,7 +11,7 @@ import 'package:just_audio/just_audio.dart';
 import '../enums/session_state.dart';
 import '../state/app_state.dart';
 import '../state/audio_state.dart';
-import '../utils/methods/bell_methods.dart';
+import '../utils/methods/audio_methods.dart';
 
 /// PLAY FIXED BELLS
 @pragma('vm:entry-point')
@@ -29,7 +29,7 @@ Future<void> playFixedBellsIsolate(dynamic args) async {
   final bellPlayer2 = AudioPlayer();
 
   if (startSound == Bell.random.name) {
-    startSound = getRandomBell(randomBells);
+    startSound = getRandomAudio(randomBells);
   }
 
   if (bellOnStart) {
@@ -37,7 +37,7 @@ Future<void> playFixedBellsIsolate(dynamic args) async {
   }
 
   if (intervalSound == Bell.random.name) {
-    intervalSound = getRandomBell(randomBells);
+    intervalSound = getRandomAudio(randomBells);
   }
 
   if (intervalSound != Bell.none.name) {
@@ -59,7 +59,7 @@ Future<void> playFixedBellsIsolate(dynamic args) async {
         bellPlayer2.seek(Duration.zero);
         if (timeToEnd > kEndBellCutOff) {
           if (intervalSound == Bell.random.name) {
-            intervalSound = getRandomBell(randomBells);
+            intervalSound = getRandomAudio(randomBells);
             await bellPlayer1.setAsset('assets/audio/bells/$intervalSound.mp3');
           }
           bellPlayer2.play();
@@ -93,7 +93,7 @@ Future<void> playRandomBells(dynamic args) async {
   }
 
   if (startSound == Bell.random.name) {
-    startSound = getRandomBell(randomBells);
+    startSound = getRandomAudio(randomBells);
   }
 
   if (bellOnStart) {
@@ -101,7 +101,7 @@ Future<void> playRandomBells(dynamic args) async {
   }
 
   if (intervalSound == Bell.random.name) {
-    intervalSound = getRandomBell(randomBells);
+    intervalSound = getRandomAudio(randomBells);
   }
 
   if (intervalSound != Bell.none.name) {
@@ -130,7 +130,7 @@ Future<void> playRandomBells(dynamic args) async {
       bellTimer = Timer(duration, () {
         bellPlayer2.seek(Duration.zero);
         if (intervalSound == Bell.random.name) {
-          intervalSound = getRandomBell(randomBells);
+          intervalSound = getRandomAudio(randomBells);
         }
         bellPlayer2.play();
         calculateRandomTime(minRandom, maxRandomTime);
@@ -157,7 +157,7 @@ Future<void> playEndBell(dynamic args) async {
   final bellPlayer2 = AudioPlayer();
 
   if (endSound == Bell.random.name) {
-    endSound = getRandomBell(randomBells);
+    endSound = getRandomAudio(randomBells);
   }
 
   await bellPlayer1.setAsset('assets/audio/bells/$endSound.mp3');

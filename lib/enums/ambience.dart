@@ -16,6 +16,7 @@ enum Ambience {
   musicSpiritual,
   musicSunrise,
   musicZen,
+  shuffle,
 }
 
 extension AmbienceText on Ambience {
@@ -49,6 +50,8 @@ extension AmbienceText on Ambience {
         return 'Spiritual';
       case Ambience.musicZen:
         return 'Zen';
+      case Ambience.shuffle:
+        return 'Shuffle';
     }
   }
 }
@@ -84,6 +87,8 @@ extension AmbienceIcon on Ambience {
         return Icons.piano_outlined;
       case Ambience.musicZen:
         return Icons.piano_outlined;
+      case Ambience.shuffle:
+        return FontAwesomeIcons.shuffle;
     }
   }
 }

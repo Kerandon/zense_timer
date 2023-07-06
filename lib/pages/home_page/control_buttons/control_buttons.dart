@@ -4,7 +4,7 @@ import 'package:zense_timer/pages/home_page/control_buttons/control_button.dart'
 import 'package:zense_timer/pages/home_page/control_buttons/start_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../animation/pop_animation.dart';
+import '../../../animation/fade_in_animation.dart';
 import '../../../enums/session_state.dart';
 import '../../../state/app_state.dart';
 import '../../../state/database_service.dart';
@@ -29,13 +29,10 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
         const Align(alignment: Alignment(0, 0.65), child: StartButton()),
 
         /// STOP BUTTON
-        if (appState.sessionState != SessionState.ended) ...[
+        if (appState.sessionState != SessionState.notStarted && appState.sessionState != SessionState.ended) ...[
           Align(
             alignment: const Alignment(0.65, 0.90),
-            child: FadeAnimation(
-              animate: appState.sessionState == SessionState.countdown ||
-                  appState.sessionState == SessionState.inProgress,
-              reset: appState.sessionState == SessionState.notStarted,
+            child: FadeInAnimation(
               child: ControlButton(
                 color: appState.colorTheme == AppColorTheme.simple &&
                         !appState.darkTheme
@@ -80,10 +77,10 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
           /// PAUSE BUTTON
           Align(
             alignment: const Alignment(-0.65, 0.90),
-            child: FadeAnimation(
-              animate: appState.sessionState == SessionState.countdown ||
+            child: FadeInAnimation(
+              animateOnDemand: appState.sessionState == SessionState.countdown ||
                   appState.sessionState == SessionState.inProgress,
-              reset: appState.sessionState == SessionState.notStarted,
+              // reset: appState.sessionState == SessionState.notStarted,
               child: ControlButton(
                 color: appState.sessionState == SessionState.countdown
                     ? Theme.of(context).colorScheme.onSurface.withOpacity(0.40)

@@ -30,12 +30,12 @@ class BellsSoundsPage extends ConsumerWidget {
     final bells = Bell.values.toList();
 
     bells.sort((a, b) {
-      if (a.name == 'none') {
+      if (a.name == kNone) {
         return -1; // 'none' should be before any other string
-      } else if (b.name == 'none') {
+      } else if (b.name == kNone) {
         return 1; // 'none' should be before any other string
       } else {
-        return a.name.compareTo(b.name); // normal alphabetical comparison
+        return a.toText().compareTo(b.toText()); // normal alphabetical comparison
       }
     });
     return Scaffold(

@@ -1,4 +1,4 @@
-import 'package:zense_timer/animation/pop_animation.dart';
+import 'package:zense_timer/animation/fade_in_animation.dart';
 import 'package:zense_timer/configs/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,11 +21,7 @@ class StartButton extends ConsumerWidget {
     final audioNotifier = ref.read(audioProvider.notifier);
     final size = MediaQuery.of(context).size;
 
-    return FadeAnimation(
-      animate: appState.sessionState == SessionState.notStarted,
-      reset: appState.sessionState == SessionState.countdown ||
-          appState.sessionState == SessionState.inProgress ||
-          appState.sessionState == SessionState.paused,
+    return FadeInAnimation(
       child: SizedBox(
         width: size.width * 0.80,
         height: size.height * 0.08,

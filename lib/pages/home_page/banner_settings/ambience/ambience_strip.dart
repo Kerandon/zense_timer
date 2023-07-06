@@ -39,9 +39,9 @@ class _AmbienceStripState extends ConsumerState<AmbienceStrip> {
     if (!_sortListOnStart) {
       _sortListOnStart = true;
       _items = Ambience.values.toList();
-      _items.sort((a, b) => a.name.compareTo(b.name));
+      _items.sort((a, b) => a.toText().compareTo(b.toText()));
       final selected = _items
-          .firstWhere((element) => element.name == audioState.ambience.name);
+          .firstWhere((element) => element.toText() == audioState.ambience.toText());
       _items.remove(selected);
       _items.insert(0, selected);
 

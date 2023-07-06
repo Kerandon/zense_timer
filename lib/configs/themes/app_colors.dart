@@ -43,13 +43,13 @@ class AppColors {
     ),
     ThemeColorModel(
       AppColorTheme.ocean,
-      const Color(0xff1da2d8),
-      const Color(0xff7fcdff),
+  const Color(0xff007ACC),
+      const Color(0xffD4E8FF),
       const Color(0xff003C5F),
     ),
     ThemeColorModel(
       AppColorTheme.sky,
-      const Color(0xff017ed5),
+      const Color(0xff00bfff),
       const Color(0xfff5f5f5),
       const Color(0xff1da2d8),
     ),

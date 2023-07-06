@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:quiver/async.dart';
+import 'package:zense_timer/utils/methods/audio_methods.dart';
 import '../configs/constants.dart';
+import '../enums/ambience.dart';
 import '../state/app_state.dart';
 import '../state/audio_state.dart';
 
 @pragma('vm:entry-point')
-Future<void> playAmbience(dynamic args)async {
+Future<void> playAmbience(dynamic args) async {
   String ambience = args[0];
   double volume = args[1];
   int position = args[2];
@@ -25,13 +27,15 @@ Future<void> playAmbience(dynamic args)async {
 
   /// Countdown player to play 'white noise' if a countdown is set so the OS will next kill the app if backgrounded.
   final countdownPlayer = AudioPlayer();
-  countdownPlayer.setAsset('assets/audio/ambience/blank.mp3').then((value) async {
+  countdownPlayer
+      .setAsset('assets/audio/ambience/blank.mp3')
+      .then((value) async {
     await countdownPlayer.setVolume(0.01);
     await countdownPlayer.setLoopMode(LoopMode.all);
     countdownPlayer.play();
   });
 
-  Timer(Duration(milliseconds: countdown + 5000), () {
+  Timer(Duration(milliseconds: countdown + 6000), () {
     countdownPlayer.stop();
   });
 
@@ -47,7 +51,7 @@ Future<void> playAmbience(dynamic args)async {
         .listen((event) async {
       final percent = 1 - (event.remaining.inMilliseconds / kAmbienceFadeTime);
       if (ambience == kNone) {
-       await ambiencePlayer.setVolume(0.01);
+        await ambiencePlayer.setVolume(0.01);
       } else {
         await ambiencePlayer.setVolume(percent * volume);
       }
@@ -84,6 +88,7 @@ class AmbienceServiceIsolate extends ConsumerStatefulWidget {
 
 class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
   bool _ambienceHasStarted = false;
+  String ambienceSelected = Ambience.none.name;
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +107,42 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
 
     if (appState.sessionState == SessionState.countdown ||
         appState.sessionState == SessionState.inProgress) {
+      ///Set Ambience
+      String selectedAmbience = audioState.ambience.name;
+      if (selectedAmbience == Ambience.shuffle.name) {
+        selectedAmbience = getRandomAudio(getAllAmbienceToList());
+      }
+
       if (!_ambienceHasStarted) {
         _ambienceHasStarted = true;
+        bool isShuffle = false;
+        if (audioState.ambience.name == Ambience.shuffle.name) {
+          isShuffle = true;
+        }
+
+        bool firstPlay = true;
+        if (appState.elapsedTime > 0) {
+          firstPlay = false;
+        }
+
+        /// Set the ambience. Note is shuffle is on we want to randomly select. However,
+        /// if shuffle is on but is RESUMED play, we want to continue the existing ambience already assigned.
+
+        if (!isShuffle) {
+          ambienceSelected = audioState.ambience.name;
+        }
+        if (isShuffle && firstPlay) {
+          ambienceSelected = getRandomAudio(getAllAmbienceToList());
+        }
+
+        print('ambience selected is $ambienceSelected');
+
         _play(
           audioState: audioState,
           audioNotifier: audioNotifier,
           appState: appState,
-          firstPlay: appState.elapsedTime == 0,
+          firstPlay: firstPlay,
+          ambience: ambienceSelected,
         );
       }
     }
@@ -132,6 +166,7 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
     required AudioNotifier audioNotifier,
     required AppState appState,
     required bool firstPlay,
+    required String ambience,
   }) {
     /// Set total time
     int time = appState.time;
@@ -142,7 +177,7 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
     final port = ReceivePort();
     List<dynamic> variables = [
       ///ambience
-      audioState.ambience.name,
+      ambience,
 
       ///volume
       audioState.ambienceVolume,

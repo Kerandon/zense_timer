@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:animated_music_indicator/animated_music_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:quiver/async.dart';
+import 'package:zense_timer/utils/methods/audio_methods.dart';
 import '../../../../app_components/info_sheet_dash.dart';
 import '../../../../configs/constants.dart';
 import '../../../../enums/ambience.dart';
@@ -54,7 +54,7 @@ class _AmbienceInfoSheetState extends ConsumerState<AmbienceInfoSheet> {
     _volume = audioState.ambienceVolume;
     _player.setVolume(_volume);
     _playAudio();
-
+    bool isShuffle = widget.ambience.name == Ambience.shuffle.name;
     return Padding(
       padding: EdgeInsets.fromLTRB(padding, 0, padding, padding * 2),
       child: SizedBox(
@@ -86,8 +86,12 @@ class _AmbienceInfoSheetState extends ConsumerState<AmbienceInfoSheet> {
                       height: size.height * 0.35,
                       width: size.width * 0.80,
                       decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.tertiary,
                         image: DecorationImage(
-                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Theme.of(context).colorScheme.primary,
+                              BlendMode.difference),
+                          fit: isShuffle ? BoxFit.scaleDown : BoxFit.cover,
                           image: AssetImage(
                               'assets/images/ambience/${widget.ambience.name}.png'),
                         ),
@@ -118,8 +122,13 @@ class _AmbienceInfoSheetState extends ConsumerState<AmbienceInfoSheet> {
   Future<void> _playAudio() async {
     if (!_ambienceHasPlayedOnInit) {
       _ambienceHasPlayedOnInit = true;
+      String ambience = widget.ambience.name;
+      if (ambience == Ambience.shuffle.name) {
+        ambience = getRandomAudio(getAllAmbienceToList());
+      }
+
       await _player
-          .setAsset('assets/audio/ambience/${widget.ambience.name}.mp3')
+          .setAsset('assets/audio/ambience/$ambience.mp3')
           .then((value) async {
         await _player.play();
       });
