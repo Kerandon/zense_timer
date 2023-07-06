@@ -34,7 +34,7 @@ class CustomSwitchListTile extends StatelessWidget {
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minWidth: size.width * 0.80,
+          minWidth: size.width * 0.60,
           maxWidth: size.width,
           minHeight: size.height * 0.05,
           maxHeight: size.height * 0.15,
@@ -50,18 +50,34 @@ class CustomSwitchListTile extends StatelessWidget {
               : null,
           leading: icon == null
               ? null
-              : Icon(
-                  icon,
+              : ConstrainedBox(
+                  constraints: buildBoxConstraints(size),
+                  child: Icon(
+                    icon,
+                  ),
                 ),
           title: Text(title),
-          trailing: Switch(
-            inactiveThumbColor: Theme.of(context).colorScheme.onInverseSurface,
-            inactiveTrackColor: AppColors.disabledButton,
-            value: value,
-            onChanged: disable ? null : onChanged,
+          trailing: ConstrainedBox(
+            constraints: buildBoxConstraints(size),
+            child: Switch(
+              inactiveThumbColor:
+                  Theme.of(context).colorScheme.onInverseSurface,
+              inactiveTrackColor: AppColors.disabledButton,
+              value: value,
+              onChanged: disable ? null : onChanged,
+            ),
           ),
         ),
       ),
     );
+  }
+
+  BoxConstraints buildBoxConstraints(Size size) {
+    return BoxConstraints(
+            minWidth: size.width * 0.05,
+            maxWidth: size.width * 0.20,
+            minHeight: size.height * 0.05,
+            maxHeight: size.height * 0.15,
+          );
   }
 }

@@ -27,7 +27,7 @@ class _TimeStatsState extends ConsumerState<TimeStats> {
   @override
   void initState() {
     _statsFuture = DatabaseServiceAppData().getAllStats();
-    Future.delayed(const Duration(milliseconds: kFadeInDelayMilliseconds * 2),
+    Future.delayed(const Duration(milliseconds: kFadeInDelay * 2),
         () {
       _animate = true;
       setState(() {});
@@ -113,7 +113,7 @@ class _TimeStatsState extends ConsumerState<TimeStats> {
                   textAlign: TextAlign.center,
                 ).animate().fadeIn(),
                 FadeInAnimation(
-                  delayMilliseconds: kFadeInDelayMilliseconds,
+                  delayMilliseconds: kFadeInDelay,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         vertical: size.height * kPageIndentation),

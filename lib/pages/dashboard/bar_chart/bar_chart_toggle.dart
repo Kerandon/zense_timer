@@ -25,7 +25,7 @@ class BarChartToggle extends ConsumerWidget {
 
     return FadeInAnimation(
       animateOnDemand: state.toggleBarChart,
-      delayMilliseconds: kFadeInDelayMilliseconds,
+      delayMilliseconds: kFadeInDelay,
       child: CustomButton(
         fontSize: 11,
         disable: disable,

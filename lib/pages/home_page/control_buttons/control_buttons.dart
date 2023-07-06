@@ -1,3 +1,5 @@
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:zense_timer/configs/constants.dart';
 import 'package:zense_timer/enums/app_color_themes.dart';
 import 'package:zense_timer/pages/completion_page/completion_page.dart';
 import 'package:zense_timer/pages/home_page/control_buttons/control_button.dart';
@@ -26,7 +28,15 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
     return Stack(
       children: [
         /// START BUTTON
-        const Align(alignment: Alignment(0, 0.65), child: StartButton()),
+        if (appState.sessionState == SessionState.notStarted) ...[
+          const FadeInAnimation(
+            beginScale: 0.99,
+            child: Align(
+              alignment: Alignment(0, 0.60),
+              child: StartButton(),
+            ),
+          )
+        ],
 
         /// STOP BUTTON
         if (appState.sessionState != SessionState.notStarted &&
@@ -61,8 +71,7 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
                       if (mounted) {
                         await Navigator.of(context).pushAndRemoveUntil(
                             PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const CompletionPage(),
+                              pageBuilder: (_, __, ___) => const CompletionPage(),
                             ),
                             (route) => false);
                       }
@@ -79,10 +88,6 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
           Align(
             alignment: const Alignment(-0.65, 0.90),
             child: FadeInAnimation(
-              animateOnDemand:
-                  appState.sessionState == SessionState.countdown ||
-                      appState.sessionState == SessionState.inProgress,
-              // reset: appState.sessionState == SessionState.notStarted,
               child: ControlButton(
                 color: appState.sessionState == SessionState.countdown
                     ? Theme.of(context).colorScheme.onSurface.withOpacity(0.40)

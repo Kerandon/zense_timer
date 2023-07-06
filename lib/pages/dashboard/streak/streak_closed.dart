@@ -60,7 +60,7 @@ class _StreakClosedState extends State<StreakClosed> {
               Expanded(
                 flex: 2,
                 child: FadeInAnimation(
-                  delayMilliseconds: kFadeInDelayMilliseconds,
+                  delayMilliseconds: kFadeInDelay,
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(

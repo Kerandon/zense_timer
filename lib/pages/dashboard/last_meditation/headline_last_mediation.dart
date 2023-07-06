@@ -66,7 +66,7 @@ class _LastMeditationTimeTitleState
           }
 
           return FadeInAnimation(
-            delayMilliseconds: kFadeInDelayMilliseconds,
+            delayMilliseconds: kFadeInDelay,
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(

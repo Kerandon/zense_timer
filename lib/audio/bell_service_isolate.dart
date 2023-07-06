@@ -168,11 +168,14 @@ Future<void> playEndBell(dynamic args) async {
   await bellPlayer2.setVolume(volume);
 
   ///End bell - plays 2 bells & also vibrates is [true]
-  Timer(Duration(milliseconds: time), () {
+  Timer(Duration(milliseconds: time), () async {
     bellPlayer1.play();
 
     if (vibrate) {
-      Vibration.vibrate(duration: kVibrateDuration);
+      await Vibration.vibrate(duration: kVibrateDuration);
+      Future.delayed(const Duration(milliseconds: 1000), () async {
+        await Vibration.vibrate(duration: kVibrateDuration);
+      });
     }
   });
 

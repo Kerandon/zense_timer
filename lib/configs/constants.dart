@@ -22,11 +22,11 @@ const kShimmerDelay = 8;
 const kStripAnimationDuration = 150;
 const kFadeInTimeFast = 400;
 const kFadeInTimeSlow = 600;
-const kFadeInDelayMilliseconds = 200;
+const kFadeInDelay = 200;
 const kScaleInBegin = 0.95;
 
 /// VIBRATION
-const kVibrateDuration = 6000;
+const kVibrateDuration = 3000;
 
 /// DUPLICATE
 const kPageIndentation = 0.03;
@@ -56,7 +56,7 @@ const kDashBuffer = 0.02;
 const kDashRadiusMultiplier = 0.85;
 const kTimerRadius = 0.50;
 const kBackgroundTimerOpacity = 0.15;
-const kOpacityOnButton = 0.30;
+const kOpacityOnButton = 0.50;
 const kAppTimerWidth = 0.15;
 const kHomeScreenBackdropOpacity = 0.80;
 

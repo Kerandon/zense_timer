@@ -67,7 +67,7 @@ class _TotalMeditationTimeTitleState extends ConsumerState<HeadlineTotalTime> {
         return FadeInAnimation(
           resetBeforeAnimate: true,
           animateOnDemand: chartState.toggleBarChart,
-          delayMilliseconds: kFadeInDelayMilliseconds,
+          delayMilliseconds: kFadeInDelay,
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(

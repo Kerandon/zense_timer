@@ -86,11 +86,11 @@ class _AmbienceInfoSheetState extends ConsumerState<AmbienceInfoSheet> {
                       height: size.height * 0.35,
                       width: size.width * 0.80,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.tertiary,
+                        color: isShuffle ? Theme.of(context).colorScheme.tertiary : null,
                         image: DecorationImage(
-                          colorFilter: ColorFilter.mode(
+                          colorFilter: isShuffle ? ColorFilter.mode(
                               Theme.of(context).colorScheme.primary,
-                              BlendMode.difference),
+                              BlendMode.difference) : null,
                           fit: isShuffle ? BoxFit.scaleDown : BoxFit.cover,
                           image: AssetImage(
                               'assets/images/ambience/${widget.ambience.name}.png'),

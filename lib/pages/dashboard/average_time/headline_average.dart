@@ -43,7 +43,7 @@ class _AverageTimeState extends State<AverageTime> {
 
         return Center(
           child: FadeInAnimation(
-            delayMilliseconds: kFadeInDelayMilliseconds,
+            delayMilliseconds: kFadeInDelay,
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(

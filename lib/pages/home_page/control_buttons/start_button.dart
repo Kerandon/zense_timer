@@ -21,62 +21,60 @@ class StartButton extends ConsumerWidget {
     final audioNotifier = ref.read(audioProvider.notifier);
     final size = MediaQuery.of(context).size;
 
-    return FadeInAnimation(
-      child: SizedBox(
-        width: size.width * 0.80,
-        height: size.height * 0.08,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(kBorderRadiusBig),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(kBorderRadiusBig),
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    if (appState.colorTheme == AppColorTheme.simple) ...[
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.primary,
-                    ] else if (appState.colorTheme != AppColorTheme.simple) ...[
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.tertiary,
-                    ]
-                  ]),
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  audioNotifier.setShowAmbience(false);
-                  appNotifier.setShowPresets(false);
+    return SizedBox(
+      width: size.width * 0.80,
+      height: size.height * 0.08,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(kBorderRadiusBig),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadiusBig),
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  if (appState.colorTheme == AppColorTheme.simple) ...[
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.primary,
+                  ] else if (appState.colorTheme != AppColorTheme.simple) ...[
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.tertiary,
+                  ]
+                ]),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                audioNotifier.setShowAmbience(false);
+                appNotifier.setShowPresets(false);
 
-                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                    /// Check that [appState.time] isn't zero, if a fixed time session
-                    if (appState.sessionState == SessionState.notStarted &&
-                        appState.time > 0) {
-                      if (appState.time == 0 && !appState.openSession) {
-                        showPopup(
-                            context: context,
-                            text: kSetFixedTimeGreaterThanZero);
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  /// Check that [appState.time] isn't zero, if a fixed time session
+                  if (appState.sessionState == SessionState.notStarted &&
+                      appState.time > 0) {
+                    if (appState.time == 0 && !appState.openSession) {
+                      showPopup(
+                          context: context,
+                          text: kSetFixedTimeGreaterThanZero);
+                    } else {
+                      if (appState.countdownTime > 0) {
+                        appNotifier.setSessionState(SessionState.countdown);
                       } else {
-                        if (appState.countdownTime > 0) {
-                          appNotifier.setSessionState(SessionState.countdown);
-                        } else {
-                          appNotifier.setSessionState(SessionState.inProgress);
-                        }
+                        appNotifier.setSessionState(SessionState.inProgress);
                       }
                     }
-                  });
-                },
-                child: Center(
-                  child: Text(
-                    'START',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+                  }
+                });
+              },
+              child: Center(
+                child: Text(
+                  'START',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
             ),

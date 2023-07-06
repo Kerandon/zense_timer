@@ -108,7 +108,7 @@ class _StreakOpenState extends State<StreakOpen> {
                         ),
                       ),
                       FadeInAnimation(
-                        delayMilliseconds: kFadeInDelayMilliseconds,
+                        delayMilliseconds: kFadeInDelay,
                         child: Shimmer.fromColors(
                           baseColor: hasData ? Colors.amber : Colors.grey,
                           highlightColor: hasData ? Colors.yellow : Colors.grey,
@@ -138,7 +138,7 @@ class _StreakOpenState extends State<StreakOpen> {
                           child: HeadlineTile(
                             removeBackgroundColor: true,
                             content: FadeInAnimation(
-                              delayMilliseconds: kFadeInDelayMilliseconds,
+                              delayMilliseconds: kFadeInDelay,
                               child: RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
