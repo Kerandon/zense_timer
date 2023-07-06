@@ -29,7 +29,8 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
         const Align(alignment: Alignment(0, 0.65), child: StartButton()),
 
         /// STOP BUTTON
-        if (appState.sessionState != SessionState.notStarted && appState.sessionState != SessionState.ended) ...[
+        if (appState.sessionState != SessionState.notStarted &&
+            appState.sessionState != SessionState.ended) ...[
           Align(
             alignment: const Alignment(0.65, 0.90),
             child: FadeInAnimation(
@@ -78,8 +79,9 @@ class _ControlButtonsState extends ConsumerState<ControlButtons> {
           Align(
             alignment: const Alignment(-0.65, 0.90),
             child: FadeInAnimation(
-              animateOnDemand: appState.sessionState == SessionState.countdown ||
-                  appState.sessionState == SessionState.inProgress,
+              animateOnDemand:
+                  appState.sessionState == SessionState.countdown ||
+                      appState.sessionState == SessionState.inProgress,
               // reset: appState.sessionState == SessionState.notStarted,
               child: ControlButton(
                 color: appState.sessionState == SessionState.countdown

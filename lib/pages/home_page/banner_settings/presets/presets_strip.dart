@@ -92,8 +92,8 @@ class _PresetsStripState extends ConsumerState<PresetsStrip> {
                     return CustomStripButton(
                       index: index,
                       title: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: size.width * kStripPadding),
                         child: Text(
                           preset.name.toString(),
                           style: Theme.of(context)

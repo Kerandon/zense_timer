@@ -10,7 +10,6 @@ import '../../../../enums/app_color_themes.dart';
 import '../../../../state/app_state.dart';
 import '../../../../state/database_service.dart';
 import '../../../completion_page/completion_page.dart';
-import '../../../settings/color_theme/color_theme_page.dart';
 
 class AppTimerMain extends ConsumerStatefulWidget {
   const AppTimerMain({
@@ -35,9 +34,7 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final appState = ref.watch(appProvider);
     final appNotifier = ref.read(appProvider.notifier);
 
@@ -165,16 +162,12 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
                   'SET TIME',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .labelLarge!
-                      .copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: !appState.darkTheme &&
-                        appState.colorTheme == AppColorTheme.simple ? Colors
-                        .black : Colors.white
-                  ),
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: !appState.darkTheme &&
+                              appState.colorTheme == AppColorTheme.simple
+                          ? Colors.black
+                          : Colors.white),
                 ),
               ),
             ),
@@ -187,10 +180,7 @@ class _CustomNumberFieldState extends ConsumerState<AppTimerMain> {
               width: size.width * kAppTimerWidth,
               child: AnimatedInfinityIcon(
                 strokeWidth: size.width * 0.1,
-                color: Theme
-                    .of(context)
-                    .colorScheme
-                    .onSurface,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),

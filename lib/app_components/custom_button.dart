@@ -46,14 +46,6 @@ class CustomButton extends StatelessWidget {
                 minHeight: size.height * 0.05),
             child: InkWell(
               onTap: onPressed,
-              // style: OutlinedButton.styleFrom(
-              //   side: BorderSide(
-              //     width: isSelected ? 2 : 1,
-              //     color: isSelected && !disable
-              //         ? color
-              //         : Theme.of(context).colorScheme.onSurfaceVariant,
-              //   ),
-              // ),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                     widthPadding, heightPadding, widthPadding, heightPadding),

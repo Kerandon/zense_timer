@@ -25,8 +25,8 @@ class _HomePageTitleState extends ConsumerState<HomePageTitle> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: size.width * 0.06,
-          height: size.width * 0.06,
+          width: size.width * 0.08,
+          height: size.width * 0.08,
           child: Padding(
               padding: EdgeInsets.only(right: size.width * 0.02),
               child: Image.asset('assets/images/icon/app_icon_black.png',
@@ -36,7 +36,7 @@ class _HomePageTitleState extends ConsumerState<HomePageTitle> {
         ),
         Text(
           kAppName,
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         if (appState.sessionState == SessionState.notStarted) ...[
           const SizedBox(

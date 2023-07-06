@@ -7,6 +7,7 @@ const kButtonWidth = 0.50;
 const kDividerIndent = 0.05;
 const kEndPagePadding = 0.05;
 const kButtonMinWidth = 0.26;
+const kStripPadding = 0.03;
 
 const kSettingsHorizontalPageIndent = 0.09;
 
@@ -25,7 +26,7 @@ const kFadeInDelayMilliseconds = 200;
 const kScaleInBegin = 0.95;
 
 /// VIBRATION
-const kVibrateDuration = 5000;
+const kVibrateDuration = 6000;
 
 /// DUPLICATE
 const kPageIndentation = 0.03;
@@ -55,7 +56,7 @@ const kDashBuffer = 0.02;
 const kDashRadiusMultiplier = 0.85;
 const kTimerRadius = 0.50;
 const kBackgroundTimerOpacity = 0.15;
-const kOpacityOnButton = 0.15;
+const kOpacityOnButton = 0.30;
 const kAppTimerWidth = 0.15;
 const kHomeScreenBackdropOpacity = 0.80;
 

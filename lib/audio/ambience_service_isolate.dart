@@ -135,8 +135,6 @@ class _AudioManagerWidgetState extends ConsumerState<AmbienceServiceIsolate> {
           ambienceSelected = getRandomAudio(getAllAmbienceToList());
         }
 
-        print('ambience selected is $ambienceSelected');
-
         _play(
           audioState: audioState,
           audioNotifier: audioNotifier,

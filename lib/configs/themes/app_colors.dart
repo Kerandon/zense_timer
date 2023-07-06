@@ -13,45 +13,61 @@ class AppColors {
     ),
     ThemeColorModel(
       AppColorTheme.dusk,
-      const Color(0xffa64d79), // replaced 0xff4d2149 with 0xffa64d79
-      const Color(0xffFB9062),
-      const Color(0xff7f7f9e), // replaced 0xff18122B with 0xff7f7f9e
+      const Color(
+          0xffd21d57), // Replaced 0xffa64d79 with a brighter shade of pink
+      const Color(
+          0xffFB6F53), // Replaced 0xffFB9062 with a slightly darker shade of orange
+      const Color(
+          0xff445280), // Replaced 0xff7f7f9e with a darker shade of blue
     ),
     ThemeColorModel(
       AppColorTheme.desert,
-      const Color(0xffd4af37),
-      const Color(0xffb0b0b0),
-      const Color(0xffa64d79),
+      const Color(
+          0xffe0b84d), // Replaced 0xffd4af37 with a brighter shade of gold
+      const Color(
+          0xff909090), // Replaced 0xffb0b0b0 with a slightly darker shade of gray
+      const Color(
+          0xffd21d57), // Replaced 0xffa64d79 with a brighter shade of pink (matching dusk)
     ),
     ThemeColorModel(
       AppColorTheme.forest,
-      const Color(0xff337B59),
-      const Color(0xffb8d282),
-      const Color(0xff33a65c), // replaced 0xff033a1e with 0xff33a65c
+      const Color(
+          0xff2e845b), // Replaced 0xff337B59 with a slightly darker shade of green
+      const Color(
+          0xffb3d06b), // Replaced 0xffb8d282 with a slightly brighter shade of lime green
+      const Color(0xff33a65c),
     ),
     ThemeColorModel(
       AppColorTheme.stone,
-      const Color(0xff8ca3b4), // replaced 0xff495A64 with 0xff8ca3b4
+      const Color(
+          0xff758ea9), // Replaced 0xff8ca3b4 with a slightly darker shade of blue
       const Color(0xfff5f5f5),
-      const Color(0xff393D47),
+      const Color(
+          0xff323641), // Replaced 0xff393D47 with a slightly darker shade of gray
     ),
     ThemeColorModel(
       AppColorTheme.sunrise,
-      const Color(0xffee5d6c),
-      const Color(0xffFB9062),
+      const Color(
+          0xffee6b7d), // Replaced 0xffee5d6c with a slightly brighter shade of red
+      const Color(
+          0xffFB6F53), // Replaced 0xffFB9062 with a slightly darker shade of orange (matching dusk)
       const Color(0xff4b3d60),
     ),
     ThemeColorModel(
       AppColorTheme.ocean,
-  const Color(0xff007ACC),
+      const Color(
+          0xff0057A6), // Replaced 0xff007ACC with a slightly darker shade of blue
       const Color(0xffD4E8FF),
-      const Color(0xff003C5F),
+      const Color(
+          0xff003146), // Replaced 0xff003C5F with a slightly darker shade of navy blue
     ),
     ThemeColorModel(
       AppColorTheme.sky,
-      const Color(0xff00bfff),
+      const Color(
+          0xff00a8ff), // Replaced 0xff00bfff with a brighter shade of blue
       const Color(0xfff5f5f5),
-      const Color(0xff1da2d8),
+      const Color(
+          0xff147dbb), // Replaced 0xff1da2d8 with a slightly darker shade of blue
     ),
   ];
 

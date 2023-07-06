@@ -35,7 +35,9 @@ class BellsSoundsPage extends ConsumerWidget {
       } else if (b.name == kNone) {
         return 1; // 'none' should be before any other string
       } else {
-        return a.toText().compareTo(b.toText()); // normal alphabetical comparison
+        return a
+            .toText()
+            .compareTo(b.toText()); // normal alphabetical comparison
       }
     });
     return Scaffold(
